@@ -1,9 +1,11 @@
 package check_board
 
 import (
-	// Level 1
+	// Level 2.1
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/point"
-	mark "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/mark"
+
+	// Level 4.1
+	mark "github.com/muzudho/kifuwarabe-uec17/kernel/level_4_technical_conceptual/sublevel_1/mark"
 
 	// Level 2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_2/board_coordinate"

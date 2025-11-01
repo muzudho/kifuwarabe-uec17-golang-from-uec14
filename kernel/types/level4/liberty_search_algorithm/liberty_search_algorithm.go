@@ -1,15 +1,19 @@
 package liberty_search_algorithm
 
 import (
-	// Level 1
+	// Level 2.1
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/point"
-	mark "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/mark"
 
-	// Level 2
+	// Level 2.2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_2/board_coordinate"
+
+	// Level 3.1
 	stone "github.com/muzudho/kifuwarabe-uec17/kernel/level_3_physical/sublevel_1/stone"
 
-	// Level 3
+	// Level 4.1
+	mark "github.com/muzudho/kifuwarabe-uec17/kernel/level_4_technical_conceptual/sublevel_1/mark"
+
+	//
 	board "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/board"
 	check_board "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/check_board"
 	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
