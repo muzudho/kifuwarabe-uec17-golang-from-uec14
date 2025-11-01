@@ -6,16 +6,18 @@ import (
 	"os"
 	"strings"
 
-	// Level 1
+	// Level 2.1
 	geta "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/geta"
 	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/point"
-	ren_id "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/ren_id"
 
-	// Level 2
+	// Level 2.2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_2/board_coordinate"
 
-	// Level 3
+	// Level 4.1
+	ren_id "github.com/muzudho/kifuwarabe-uec17/kernel/level_4_technical_conceptual/sublevel_1/ren_id"
+
+	//
 	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
 	ren_db_doc_header "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren_db_doc_header"
 )
