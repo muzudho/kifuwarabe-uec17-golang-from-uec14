@@ -14,7 +14,7 @@ import (
 	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
 
 	// Level 3
-	types3 "github.com/muzudho/kifuwarabe-uec17/kernel/types3"
+	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
 )
 
 // DoPlay - 打つ
@@ -120,7 +120,7 @@ func (k *Kernel) Play(stoneA stone.Stone, placePlay point.Point, logg *Logger,
 
 	// [O22o6o1o0] Captured ルール
 	var isExists4rensToRemove = false
-	var o4rensToRemove [4]*types3.Ren
+	var o4rensToRemove [4]*rentype.Ren
 	var isChecked4rensToRemove = false
 
 	// [O22o3o1o0] 連と呼吸点の算出
@@ -196,10 +196,10 @@ func (k *Kernel) Play(stoneA stone.Stone, placePlay point.Point, logg *Logger,
 // isExists : bool
 // renToRemove : [4]*Ren
 // 隣接する東、北、西、南にある石を含む連
-func (k *Kernel) GetRenToCapture(placePlay point.Point) (bool, [4]*types3.Ren) {
+func (k *Kernel) GetRenToCapture(placePlay point.Point) (bool, [4]*rentype.Ren) {
 	// [O22o6o1o0]
 	var isExists bool
-	var rensToRemove [4]*types3.Ren
+	var rensToRemove [4]*rentype.Ren
 	var renIds = [4]point.Point{math.MaxInt, math.MaxInt, math.MaxInt, math.MaxInt}
 
 	var setAdjacentPoint = func(dir board_coordinate.Cell_4Directions, adjacentP point.Point) {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	// Level 1
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 )
 

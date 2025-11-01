@@ -9,7 +9,7 @@ import (
 	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
 
 	// Level 3
-	types3 "github.com/muzudho/kifuwarabe-uec17/kernel/types3"
+	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
 )
 
 // GetLiberty - 呼吸点の数え上げ。連の数え上げ。
@@ -23,7 +23,7 @@ import (
 // -------
 // - *Ren is ren or nil
 // - bool is found
-func (k *Kernel) GetLiberty(arbitraryPoint point.Point) (*types3.Ren, bool) {
+func (k *Kernel) GetLiberty(arbitraryPoint point.Point) (*rentype.Ren, bool) {
 	// チェックボードの初期化
 	k.Position.CheckBoard.Init(k.Position.Board.coordinate)
 
@@ -39,7 +39,7 @@ type LibertySearchAlgorithm struct {
 	// チェック盤
 	checkBoard *CheckBoard
 	// foundRen - 呼吸点の探索時に使います
-	foundRen *types3.Ren
+	foundRen *rentype.Ren
 }
 
 // NewLibertySearchAlgorithm - 新規作成
@@ -58,14 +58,14 @@ func NewLibertySearchAlgorithm(board *Board, checkBoard *CheckBoard) *LibertySea
 // -------
 // - *Ren is ren or nil
 // - bool is found
-func (ls *LibertySearchAlgorithm) findRen(arbitraryPoint point.Point) (*types3.Ren, bool) {
+func (ls *LibertySearchAlgorithm) findRen(arbitraryPoint point.Point) (*rentype.Ren, bool) {
 	// 探索済みならスキップ
 	if ls.checkBoard.Contains(arbitraryPoint, Mark_BitStone) {
 		return nil, false
 	}
 
 	// 連の初期化
-	ls.foundRen = types3.NewRen(ls.board.GetStoneAt(arbitraryPoint))
+	ls.foundRen = rentype.NewRen(ls.board.GetStoneAt(arbitraryPoint))
 
 	if ls.foundRen.Stone == stone.Stone_Space {
 		ls.searchSpaceRen(arbitraryPoint)

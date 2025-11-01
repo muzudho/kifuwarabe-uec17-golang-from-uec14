@@ -14,7 +14,8 @@ import (
 	// Level 2
 	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
 
-	types3 "github.com/muzudho/kifuwarabe-uec17/kernel/types3"
+	// Level 3
+	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
 )
 
 // LoadRenDb - [O12o__11o__10o5o__10o_10o0] 連データベースの外部ファイル読取
@@ -45,7 +46,7 @@ func (k *Kernel) LoadRenDb(path string, onError func(error) bool) bool {
 }
 
 // RefreshRenToInternal - TODO 外部ファイルから入力された内容を内部状態に適用します
-func (k *Kernel) RefreshRenToInternal(r *types3.Ren) bool {
+func (k *Kernel) RefreshRenToInternal(r *rentype.Ren) bool {
 	{
 		var getDefaultStone = func() (bool, stone.Stone) {
 			panic(fmt.Sprintf("unexpected stone:%s", r.Sto))
@@ -94,7 +95,7 @@ func (k *Kernel) RefreshRenToInternal(r *types3.Ren) bool {
 }
 
 // RemoveRen - 石の連を打ち上げます
-func (k *Kernel) RemoveRen(ren *types3.Ren) {
+func (k *Kernel) RemoveRen(ren *rentype.Ren) {
 	// 空点をセット
 	var setLocation = func(i int, location point.Point) {
 		k.Position.Board.SetStoneAt(location, stone.Stone_Space)

@@ -8,8 +8,9 @@ import (
 	"os"
 	"strings"
 
+	kernel "github.com/muzudho/kifuwarabe-uec17/kernel"
+
 	dbg "github.com/muzudho/kifuwarabe-uec17/debugger"
-	"github.com/muzudho/kifuwarabe-uec17/kernel"
 
 	// Level 2
 	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"

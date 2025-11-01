@@ -12,8 +12,9 @@ import (
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 
 	// Level 2
-	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/board_coordinate"
 	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
+
+	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/board_coordinate"
 )
 
 const geta = 1 // Japanese wooden clogs. Used to convert bases and ordinals.

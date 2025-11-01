@@ -11,7 +11,9 @@ import (
 
 	// Level 2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/board_coordinate"
-	types3 "github.com/muzudho/kifuwarabe-uec17/kernel/types3"
+
+	// Level 3
+	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
 )
 
 // RenId - 連データベースに格納される連のId
@@ -33,14 +35,14 @@ type RenDb struct {
 	Header RenDbDocHeader `json:"header"`
 
 	// 要素
-	Rens map[RenId]*types3.Ren `json:"rens"`
+	Rens map[RenId]*rentype.Ren `json:"rens"`
 }
 
 // NewRenDb - 連データベースを新規作成
 func NewRenDb(boardWidth int, boardHeight int) *RenDb {
 	var db = new(RenDb)
 	db.Header.Init(boardWidth, boardHeight)
-	db.Rens = make(map[RenId]*types3.Ren)
+	db.Rens = make(map[RenId]*rentype.Ren)
 	return db
 }
 
@@ -77,11 +79,11 @@ func (db *RenDb) Save(path string, convertLocation func(point.Point) string, onE
 }
 
 // FindRen - 連を取得
-func (db *RenDb) GetRen(renId RenId) (*types3.Ren, bool) {
-	var ren, isOk = db.Rens[renId]
+func (db *RenDb) GetRen(renId RenId) (*rentype.Ren, bool) {
+	var ren1, isOk = db.Rens[renId]
 
 	if isOk {
-		return ren, true
+		return ren1, true
 	}
 
 	return nil, false
@@ -89,12 +91,12 @@ func (db *RenDb) GetRen(renId RenId) (*types3.Ren, bool) {
 
 // RegisterRen - 連を登録
 // * すでに Id が登録されているなら、上書きしない
-func (db *RenDb) RegisterRen(positionNthFigure int, positionNumber PositionNumberInt, ren *types3.Ren) {
-	var renId = GetRenId(db.Header.GetBoardMemoryWidth(), positionNthFigure, positionNumber, ren.MinimumLocation)
+func (db *RenDb) RegisterRen(positionNthFigure int, positionNumber PositionNumberInt, ren1 *rentype.Ren) {
+	var renId = GetRenId(db.Header.GetBoardMemoryWidth(), positionNthFigure, positionNumber, ren1.MinimumLocation)
 
 	var _, isExists = db.Rens[renId]
 	if !isExists {
-		db.Rens[renId] = ren
+		db.Rens[renId] = ren1
 	}
 }
 
@@ -103,8 +105,8 @@ func (db *RenDb) Dump() string {
 	var sb strings.Builder
 
 	// 全ての要素
-	for idStr, ren := range db.Rens {
-		sb.WriteString(fmt.Sprintf("[%s]%s \n", idStr, ren.Dump()))
+	for idStr, ren1 := range db.Rens {
+		sb.WriteString(fmt.Sprintf("[%s]%s \n", idStr, ren1.Dump()))
 	}
 
 	var text = sb.String()
@@ -116,8 +118,8 @@ func (db *RenDb) Dump() string {
 
 // RefreshToExternalFile - 外部ファイルに出力されてもいいように内部状態を整形します
 func (db *RenDb) RefreshToExternalFile(convertLocation func(point.Point) string) {
-	for _, ren := range db.Rens {
-		ren.RefreshToExternalFile(convertLocation)
+	for _, ren1 := range db.Rens {
+		ren1.RefreshToExternalFile(convertLocation)
 	}
 }
 

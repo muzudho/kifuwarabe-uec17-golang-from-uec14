@@ -3,6 +3,7 @@ package stone
 import (
 	"fmt"
 
+	// Level 1
 	color "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/color"
 )
 
