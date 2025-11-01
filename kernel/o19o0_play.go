@@ -39,33 +39,33 @@ func (k *Kernel) DoPlay(command string, logg *Logger) {
 
 	var coord = tokens[2]
 	// 着手点
-	var placePlay = k.Position.Board.coordinate.GetPointFromGtpMove(coord)
+	var placePlay = k.Position.Board.Coordinate.GetPointFromGtpMove(coord)
 
 	// [O22o1o2o0] 石（または枠）の上に石を置こうとした
 	var onMasonry = func() bool {
-		logg.C.Infof("? masonry my_stone:%s placePlay:%s\n", stone, k.Position.Board.coordinate.GetGtpMoveFromPoint(placePlay))
-		logg.J.Infow("error masonry", "my_stone", stone, "placePlay", k.Position.Board.coordinate.GetGtpMoveFromPoint(placePlay))
+		logg.C.Infof("? masonry my_stone:%s placePlay:%s\n", stone, k.Position.Board.Coordinate.GetGtpMoveFromPoint(placePlay))
+		logg.J.Infow("error masonry", "my_stone", stone, "placePlay", k.Position.Board.Coordinate.GetGtpMoveFromPoint(placePlay))
 		return false
 	}
 
 	// [O22o3o1o0] 相手の眼に石を置こうとした
 	var onOpponentEye = func() bool {
-		logg.C.Infof("? opponent_eye my_stone:%s placePlay:%s\n", stone, k.Position.Board.coordinate.GetGtpMoveFromPoint(placePlay))
-		logg.J.Infow("error opponent_eye", "my_stone", stone, "placePlay", k.Position.Board.coordinate.GetGtpMoveFromPoint(placePlay))
+		logg.C.Infof("? opponent_eye my_stone:%s placePlay:%s\n", stone, k.Position.Board.Coordinate.GetGtpMoveFromPoint(placePlay))
+		logg.J.Infow("error opponent_eye", "my_stone", stone, "placePlay", k.Position.Board.Coordinate.GetGtpMoveFromPoint(placePlay))
 		return false
 	}
 
 	// [O22o4o1o0] 自分の眼に石を置こうとした
 	var onForbiddenMyEye = func() bool {
-		logg.C.Infof("? my_eye my_stone:%s placePlay:%s\n", stone, k.Position.Board.coordinate.GetGtpMoveFromPoint(placePlay))
-		logg.J.Infow("error my_eye", "my_stone", stone, "placePlay", k.Position.Board.coordinate.GetGtpMoveFromPoint(placePlay))
+		logg.C.Infof("? my_eye my_stone:%s placePlay:%s\n", stone, k.Position.Board.Coordinate.GetGtpMoveFromPoint(placePlay))
+		logg.J.Infow("error my_eye", "my_stone", stone, "placePlay", k.Position.Board.Coordinate.GetGtpMoveFromPoint(placePlay))
 		return false
 	}
 
 	// [O22o7o2o0] コウに石を置こうとした
 	var onKo = func() bool {
-		logg.C.Infof("? ko my_stone:%s placePlay:%s\n", stone, k.Position.Board.coordinate.GetGtpMoveFromPoint(placePlay))
-		logg.J.Infow("error ko", "my_stone", stone, "placePlay", k.Position.Board.coordinate.GetGtpMoveFromPoint(placePlay))
+		logg.C.Infof("? ko my_stone:%s placePlay:%s\n", stone, k.Position.Board.Coordinate.GetGtpMoveFromPoint(placePlay))
+		logg.J.Infow("error ko", "my_stone", stone, "placePlay", k.Position.Board.Coordinate.GetGtpMoveFromPoint(placePlay))
 		return false
 	}
 

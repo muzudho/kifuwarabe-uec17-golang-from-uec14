@@ -36,7 +36,7 @@ func (k *Kernel) DoSetBoard(command string, logg *Logger) {
 			return false, stone.Stone_Space
 		}
 
-		var size = k.Position.Board.coordinate.GetMemoryArea()
+		var size = k.Position.Board.Coordinate.GetMemoryArea()
 		var i point.Point = 0
 		for _, c := range string(fileData) {
 			var str = string([]rune{c})
@@ -63,7 +63,7 @@ func (k *Kernel) DoSetBoard(command string, logg *Logger) {
 		}
 
 		// [O23o_2o3o_1o0] 連データベース初期化
-		k.renDb.Init(k.Position.Board.coordinate.GetWidth(), k.Position.Board.coordinate.GetHeight())
+		k.renDb.Init(k.Position.Board.Coordinate.GetWidth(), k.Position.Board.Coordinate.GetHeight())
 		k.FindAllRens()
 	}
 }

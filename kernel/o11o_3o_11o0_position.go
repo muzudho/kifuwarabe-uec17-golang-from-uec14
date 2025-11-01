@@ -1,10 +1,16 @@
 package kernel
 
-import game_rule_settings "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/game_rule_settings"
+import (
+	// Level 2
+	game_rule_settings "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/game_rule_settings"
+
+	// Level 3
+	board "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/board"
+)
 
 type Position struct {
 	// Board - 盤
-	Board *Board
+	Board *board.Board
 
 	// [O22o2o3o0]
 	// CheckBoard - 呼吸点の探索時に使います
@@ -19,7 +25,7 @@ type Position struct {
 func NewDirtyPosition(gameRuleSettings game_rule_settings.GameRuleSettings, boardWidht int, boardHeight int) *Position {
 	var p = new(Position)
 
-	p.Board = NewBoard(gameRuleSettings, boardWidht, boardHeight)
+	p.Board = board.NewBoard(gameRuleSettings, boardWidht, boardHeight)
 
 	// [O22o2o3o0] チェックボード
 	p.CheckBoard = NewDirtyCheckBoard()

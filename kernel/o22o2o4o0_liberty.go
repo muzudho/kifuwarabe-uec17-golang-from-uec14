@@ -9,6 +9,7 @@ import (
 	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
 
 	// Level 3
+	board "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/board"
 	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
 )
 
@@ -25,7 +26,7 @@ import (
 // - bool is found
 func (k *Kernel) GetLiberty(arbitraryPoint point.Point) (*rentype.Ren, bool) {
 	// チェックボードの初期化
-	k.Position.CheckBoard.Init(k.Position.Board.coordinate)
+	k.Position.CheckBoard.Init(k.Position.Board.Coordinate)
 
 	var libertySearchAlgorithm = NewLibertySearchAlgorithm(k.Position.Board, k.Position.CheckBoard)
 
@@ -35,7 +36,7 @@ func (k *Kernel) GetLiberty(arbitraryPoint point.Point) (*rentype.Ren, bool) {
 // LibertySearchAlgorithm - 呼吸点探索アルゴリズム
 type LibertySearchAlgorithm struct {
 	// 盤
-	board *Board
+	board *board.Board
 	// チェック盤
 	checkBoard *CheckBoard
 	// foundRen - 呼吸点の探索時に使います
@@ -43,7 +44,7 @@ type LibertySearchAlgorithm struct {
 }
 
 // NewLibertySearchAlgorithm - 新規作成
-func NewLibertySearchAlgorithm(board *Board, checkBoard *CheckBoard) *LibertySearchAlgorithm {
+func NewLibertySearchAlgorithm(board *board.Board, checkBoard *CheckBoard) *LibertySearchAlgorithm {
 	var ls = new(LibertySearchAlgorithm)
 
 	ls.board = board
@@ -76,7 +77,7 @@ func (ls *LibertySearchAlgorithm) findRen(arbitraryPoint point.Point) (*rentype.
 		var eachPoint = func(point point.Point) {
 			ls.checkBoard.Erase(point, Mark_BitLiberty)
 		}
-		ls.board.coordinate.ForeachCellWithoutWall(eachPoint)
+		ls.board.Coordinate.ForeachCellWithoutWall(eachPoint)
 	}
 
 	return ls.foundRen, true
