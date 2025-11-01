@@ -2,7 +2,11 @@
 
 package kernel
 
-import "fmt"
+import (
+	"fmt"
+
+	types "github.com/muzudho/kifuwarabe-uec17/kernel/types"
+)
 
 // Stone - 石の色
 type Stone uint
@@ -93,16 +97,16 @@ func (s Stone) String() string {
 }
 
 // GetColor - 色の取得
-func (s Stone) GetColor() Color {
+func (s Stone) GetColor() types.Color {
 	switch s {
 	case Stone_Space:
-		return Color_None
+		return types.Color_None
 	case Stone_Black:
-		return Color_Black
+		return types.Color_Black
 	case Stone_White:
-		return Color_White
+		return types.Color_White
 	case Stone_Wall:
-		return Color_None
+		return types.Color_None
 	default:
 		panic(fmt.Sprintf("%d", int(s)))
 	}

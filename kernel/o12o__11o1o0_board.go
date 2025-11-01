@@ -2,6 +2,8 @@
 
 package kernel
 
+import types "github.com/muzudho/kifuwarabe-uec17/kernel/types"
+
 // Board - 盤
 type Board struct {
 	// ゲームルール
@@ -64,7 +66,7 @@ func (b *Board) SetStoneAt(i Point, s Stone) {
 }
 
 // GetColorAt - 指定座標の石の色を取得
-func (b *Board) GetColorAt(i Point) Color {
+func (b *Board) GetColorAt(i Point) types.Color {
 	return b.cells[i].GetColor()
 }
 

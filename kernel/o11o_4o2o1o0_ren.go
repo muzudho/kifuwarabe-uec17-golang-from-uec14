@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"math"
 	"strings"
+
+	types "github.com/muzudho/kifuwarabe-uec17/kernel/types"
 )
 
 // Ren - 連，れん
@@ -20,7 +22,7 @@ type Ren struct {
 	// 石
 	stone Stone
 	// 隣接する石の色
-	adjacentColor Color
+	adjacentColor types.Color
 	// 要素の石の位置
 	locations []Point
 	// 呼吸点の位置
@@ -37,7 +39,7 @@ type Ren struct {
 func NewRen(stone Stone) *Ren {
 	var r = new(Ren)
 	r.stone = stone
-	r.adjacentColor = Color_None
+	r.adjacentColor = types.Color_None
 	r.minimumLocation = math.MaxInt
 	return r
 }
@@ -58,7 +60,7 @@ func (r *Ren) GetStone() Stone {
 }
 
 // GetAdjacentColor - 隣接する石の色
-func (r *Ren) GetAdjacentColor() Color {
+func (r *Ren) GetAdjacentColor() types.Color {
 	return r.adjacentColor
 }
 

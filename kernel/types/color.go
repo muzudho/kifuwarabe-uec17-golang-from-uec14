@@ -1,6 +1,4 @@
-// BOF [O11o_4o1o0]
-
-package kernel
+package types
 
 import "fmt"
 
@@ -10,7 +8,6 @@ const (
 	Color_None Color = iota
 	Color_Black
 	Color_White
-	Color_Mixed
 )
 
 // String - 文字列化
@@ -22,14 +19,12 @@ func (c Color) String() string {
 		return "x"
 	case Color_White:
 		return "o"
-	case Color_Mixed:
-		return "xo"
 	default:
 		panic(fmt.Sprintf("unexpected color:%d", int(c)))
 	}
 }
 
-// GetAdded - 色の加算
+// GetAdded - 色の加算。上書きはできない
 func (c1 Color) GetAdded(c2 Color) Color {
 	switch c1 {
 	case Color_None:
@@ -41,9 +36,7 @@ func (c1 Color) GetAdded(c2 Color) Color {
 		case Color_Black:
 			return Color_Black
 		case Color_White:
-			return Color_Mixed
-		case Color_Mixed:
-			return Color_Mixed
+			return Color_Black
 		default:
 			panic(fmt.Sprintf("unexpected my_color:%s adds_color:%s", c1, c2))
 		}
@@ -52,16 +45,12 @@ func (c1 Color) GetAdded(c2 Color) Color {
 		case Color_None:
 			return Color_White
 		case Color_Black:
-			return Color_Mixed
+			return Color_White
 		case Color_White:
 			return Color_White
-		case Color_Mixed:
-			return Color_Mixed
 		default:
 			panic(fmt.Sprintf("unexpected my_color:%s adds_color:%s", c1, c2))
 		}
-	case Color_Mixed:
-		return Color_Mixed
 	default:
 		panic(fmt.Sprintf("unexpected my_color:%s adds_color:%s", c1, c2))
 	}
@@ -71,16 +60,12 @@ func (c1 Color) GetAdded(c2 Color) Color {
 func (c Color) GetOpponent() Color {
 	switch c {
 	case Color_None:
-		return Color_Mixed
+		return c
 	case Color_Black:
 		return Color_White
 	case Color_White:
 		return Color_Black
-	case Color_Mixed:
-		return Color_None
 	default:
 		panic(fmt.Sprintf("unexpected color:%d", int(c)))
 	}
 }
-
-// EOF [O11o_4o1o0]
