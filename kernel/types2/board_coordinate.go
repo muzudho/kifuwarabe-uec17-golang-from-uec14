@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
+	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 )
 
 // 片方の枠の厚み。東、北、西、南
@@ -32,7 +32,7 @@ type BoardCoordinate struct {
 	MemoryHeight int
 
 	// ４方向（東、北、西、南）への相対番地。2015年講習会サンプル、GoGo とは順序が違います
-	Cell4Directions [4]types1.Point
+	Cell4Directions [4]point.Point
 }
 
 // GetMemoryWidth - 枠付きの盤の水平一辺の交点数
@@ -68,47 +68,47 @@ func (bc *BoardCoordinate) GetBoardArea() int {
 }
 
 // GetRelativePointOf - ４方向（東、北、西、南）の先の番地
-func (bc *BoardCoordinate) GetRelativePointOf(dir4 Cell_4Directions) types1.Point {
+func (bc *BoardCoordinate) GetRelativePointOf(dir4 Cell_4Directions) point.Point {
 	return bc.Cell4Directions[dir4]
 }
 
 // GetEastOf - 東
-func (bc *BoardCoordinate) GetEastOf(point types1.Point) types1.Point {
+func (bc *BoardCoordinate) GetEastOf(point point.Point) point.Point {
 	return point + bc.Cell4Directions[Cell_East]
 }
 
 // GetNorthEastOf - 北東
-func (bc *BoardCoordinate) GetNorthEastOf(point types1.Point) types1.Point {
+func (bc *BoardCoordinate) GetNorthEastOf(point point.Point) point.Point {
 	return point + bc.Cell4Directions[Cell_North] + bc.Cell4Directions[Cell_East]
 }
 
 // GetNorthOf - 北
-func (bc *BoardCoordinate) GetNorthOf(point types1.Point) types1.Point {
+func (bc *BoardCoordinate) GetNorthOf(point point.Point) point.Point {
 	return point + bc.Cell4Directions[Cell_North]
 }
 
 // GetNorthWestOf - 北西
-func (bc *BoardCoordinate) GetNorthWestOf(point types1.Point) types1.Point {
+func (bc *BoardCoordinate) GetNorthWestOf(point point.Point) point.Point {
 	return point + bc.Cell4Directions[Cell_North] + bc.Cell4Directions[Cell_West]
 }
 
 // GetWestOf - 西
-func (bc *BoardCoordinate) GetWestOf(point types1.Point) types1.Point {
+func (bc *BoardCoordinate) GetWestOf(point point.Point) point.Point {
 	return point + bc.Cell4Directions[Cell_West]
 }
 
 // GetSouthWestOf - 南西
-func (bc *BoardCoordinate) GetSouthWestOf(point types1.Point) types1.Point {
+func (bc *BoardCoordinate) GetSouthWestOf(point point.Point) point.Point {
 	return point + bc.Cell4Directions[Cell_South] + bc.Cell4Directions[Cell_West]
 }
 
 // GetSouthOf - 南
-func (bc *BoardCoordinate) GetSouthOf(point types1.Point) types1.Point {
+func (bc *BoardCoordinate) GetSouthOf(point point.Point) point.Point {
 	return point + bc.Cell4Directions[Cell_South]
 }
 
 // GetSouthEastOf - 南東
-func (bc *BoardCoordinate) GetSouthEastOf(point types1.Point) types1.Point {
+func (bc *BoardCoordinate) GetSouthEastOf(point point.Point) point.Point {
 	return point + bc.Cell4Directions[Cell_South] + bc.Cell4Directions[Cell_East]
 }
 
@@ -126,17 +126,17 @@ func (bc *BoardCoordinate) GetSouthEastOf(point types1.Point) types1.Point {
 // -------
 // point : Point
 // 配列インデックス
-func (bc *BoardCoordinate) GetPointFromXy(x int, y int) types1.Point {
-	return types1.Point(y*bc.MemoryWidth + x)
+func (bc *BoardCoordinate) GetPointFromXy(x int, y int) point.Point {
+	return point.Point(y*bc.MemoryWidth + x)
 }
 
-func GetXyFromPointOnBoard(MemoryWidth int, point types1.Point) (int, int) {
+func GetXyFromPointOnBoard(MemoryWidth int, point point.Point) (int, int) {
 	var p = int(point)
 	return p % MemoryWidth, p / MemoryWidth
 }
 
 // GetXyFromPoint - `GetPointFromXy` の逆関数
-func (bc *BoardCoordinate) GetXyFromPoint(point types1.Point) (int, int) {
+func (bc *BoardCoordinate) GetXyFromPoint(point point.Point) (int, int) {
 	return GetXyFromPointOnBoard(bc.MemoryWidth, point)
 }
 
@@ -213,7 +213,7 @@ func GetRankFromCode(code string) string {
 }
 
 // ForeachLikeText - 枠を含めた各セルの石
-func (bc *BoardCoordinate) ForeachLikeText(setPoint func(types1.Point), doNewline func()) {
+func (bc *BoardCoordinate) ForeachLikeText(setPoint func(point.Point), doNewline func()) {
 	for y := 0; y < bc.MemoryHeight; y++ {
 		if y != 0 {
 			doNewline()
@@ -229,13 +229,13 @@ func (bc *BoardCoordinate) ForeachLikeText(setPoint func(types1.Point), doNewlin
 // GetPointFromGtpMove - "A7" や "J13" といった符号を Point へ変換します
 //
 // * `gtp_move` - 座標の符号。 Example: "A7" や "J13"
-func (bc *BoardCoordinate) GetPointFromGtpMove(gtp_move string) types1.Point {
+func (bc *BoardCoordinate) GetPointFromGtpMove(gtp_move string) point.Point {
 	return bc.GetPointFromXy(
 		GetXFromFile(GetFileFromCode(gtp_move))+oneSideWallThickness,
 		GetYFromRank(GetRankFromCode(gtp_move))+oneSideWallThickness)
 }
 
-func getFileRankFromPointOnBoard(memoryWidth int, point types1.Point) (string, int) {
+func getFileRankFromPointOnBoard(memoryWidth int, point point.Point) (string, int) {
 	var x, y = GetXyFromPointOnBoard(memoryWidth, point)
 	var file = GetFileFromX(x - oneSideWallThickness)
 	var rank = getRankFromY(y) - oneSideWallThickness
@@ -243,24 +243,24 @@ func getFileRankFromPointOnBoard(memoryWidth int, point types1.Point) (string, i
 }
 
 // 例えば "A1" のように、行番号をゼロサプレスして返す
-func getCodeFromPointOnBoard(memoryWidth int, point types1.Point) string {
+func getCodeFromPointOnBoard(memoryWidth int, point point.Point) string {
 	var file, rank = getFileRankFromPointOnBoard(memoryWidth, point)
 	return fmt.Sprintf("%s%d", file, rank)
 }
 
 // 例えば "01A" のように、符号を行、列の順とし、かつ、行番号を一律２桁のゼロ埋めにします
-func GetRenIdFromPointOnBoard(memoryWidth int, point types1.Point) string {
+func GetRenIdFromPointOnBoard(memoryWidth int, point point.Point) string {
 	var file, rank = getFileRankFromPointOnBoard(memoryWidth, point)
 	return fmt.Sprintf("%02d%s", rank, file)
 }
 
 // GetGtpMoveFromPoint - `GetPointFromGtpMove` の逆関数
-func (bc *BoardCoordinate) GetGtpMoveFromPoint(point types1.Point) string {
+func (bc *BoardCoordinate) GetGtpMoveFromPoint(point point.Point) string {
 	return getCodeFromPointOnBoard(bc.MemoryWidth, point)
 }
 
 // ForeachCellWithoutWall - 枠や改行を含めない各セルの番地
-func (bc *BoardCoordinate) ForeachCellWithoutWall(setPoint func(types1.Point)) {
+func (bc *BoardCoordinate) ForeachCellWithoutWall(setPoint func(point.Point)) {
 	// - x,y は枠無しの盤での0から始まる座標
 	// - point は枠無しの盤を配列にしたもので0から始まる配列の添え字
 	var heightNth = bc.MemoryHeight - 1
@@ -274,7 +274,7 @@ func (bc *BoardCoordinate) ForeachCellWithoutWall(setPoint func(types1.Point)) {
 }
 
 // ForeachPayloadLocationOrderByYx - 枠や改行を含めない各セルの番地。筋、段の順
-func (bc *BoardCoordinate) ForeachPayloadLocationOrderByYx(setLocation func(types1.Point)) {
+func (bc *BoardCoordinate) ForeachPayloadLocationOrderByYx(setLocation func(point.Point)) {
 	var height = bc.MemoryHeight - 1
 	var width = bc.MemoryWidth - 1
 	for x := 1; x < width; x++ {

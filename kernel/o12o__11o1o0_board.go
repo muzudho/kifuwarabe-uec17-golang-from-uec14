@@ -1,6 +1,7 @@
 package kernel
 
 import (
+	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
 	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
@@ -33,11 +34,11 @@ func NewBoard(gameRule GameRule, boardWidht int, boardHeight int) *Board {
 		MemoryWidth:  memoryBoardWidth,
 		MemoryHeight: memoryBoardHeight,
 		// ４方向（東、北、西、南）の番地への相対インデックス
-		Cell4Directions: [4]types1.Point{
+		Cell4Directions: [4]point.Point{
 			1,
-			types1.Point(-memoryBoardWidth),
+			point.Point(-memoryBoardWidth),
 			-1,
-			types1.Point(memoryBoardWidth),
+			point.Point(memoryBoardWidth),
 		},
 	}
 
@@ -63,22 +64,22 @@ func (b *Board) GetCoordinate() *types2.BoardCoordinate {
 }
 
 // GetStoneAt - 指定座標の石を取得
-func (b *Board) GetStoneAt(i types1.Point) types2.Stone {
+func (b *Board) GetStoneAt(i point.Point) types2.Stone {
 	return b.cells[i]
 }
 
 // SetStoneAt - 指定座標の石を設定
-func (b *Board) SetStoneAt(i types1.Point, s types2.Stone) {
+func (b *Board) SetStoneAt(i point.Point, s types2.Stone) {
 	b.cells[i] = s
 }
 
 // GetColorAt - 指定座標の石の色を取得
-func (b *Board) GetColorAt(i types1.Point) types1.Color {
+func (b *Board) GetColorAt(i point.Point) types1.Color {
 	return b.cells[i].GetColor()
 }
 
 // IsEmpty - 指定の交点は空点か？
-func (b *Board) IsSpaceAt(point types1.Point) bool {
+func (b *Board) IsSpaceAt(point point.Point) bool {
 	return b.GetStoneAt(point) == types2.Stone_Space
 }
 
@@ -89,5 +90,5 @@ func (b *Board) resize(width int, height int) {
 	b.cells = make([]types2.Stone, b.coordinate.GetMemoryArea())
 
 	// ４方向（東、北、西、南）の番地への相対インデックス
-	b.coordinate.Cell4Directions = [4]types1.Point{1, types1.Point(-b.coordinate.GetMemoryWidth()), -1, types1.Point(b.coordinate.GetMemoryWidth())}
+	b.coordinate.Cell4Directions = [4]point.Point{1, point.Point(-b.coordinate.GetMemoryWidth()), -1, point.Point(b.coordinate.GetMemoryWidth())}
 }

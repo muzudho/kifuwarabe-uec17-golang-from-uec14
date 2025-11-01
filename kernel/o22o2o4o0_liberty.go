@@ -1,7 +1,7 @@
 package kernel
 
 import (
-	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
+	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 	types3 "github.com/muzudho/kifuwarabe-uec17/kernel/types3"
 )
@@ -17,7 +17,7 @@ import (
 // -------
 // - *Ren is ren or nil
 // - bool is found
-func (k *Kernel) GetLiberty(arbitraryPoint types1.Point) (*types3.Ren, bool) {
+func (k *Kernel) GetLiberty(arbitraryPoint point.Point) (*types3.Ren, bool) {
 	// チェックボードの初期化
 	k.Position.CheckBoard.Init(k.Position.Board.coordinate)
 
@@ -52,7 +52,7 @@ func NewLibertySearchAlgorithm(board *Board, checkBoard *CheckBoard) *LibertySea
 // -------
 // - *Ren is ren or nil
 // - bool is found
-func (ls *LibertySearchAlgorithm) findRen(arbitraryPoint types1.Point) (*types3.Ren, bool) {
+func (ls *LibertySearchAlgorithm) findRen(arbitraryPoint point.Point) (*types3.Ren, bool) {
 	// 探索済みならスキップ
 	if ls.checkBoard.Contains(arbitraryPoint, Mark_BitStone) {
 		return nil, false
@@ -67,7 +67,7 @@ func (ls *LibertySearchAlgorithm) findRen(arbitraryPoint types1.Point) (*types3.
 		ls.searchStoneRenRecursive(arbitraryPoint)
 
 		// チェックボードの「呼吸点」チェックのみクリアー
-		var eachPoint = func(point types1.Point) {
+		var eachPoint = func(point point.Point) {
 			ls.checkBoard.Erase(point, Mark_BitLiberty)
 		}
 		ls.board.coordinate.ForeachCellWithoutWall(eachPoint)
@@ -79,7 +79,7 @@ func (ls *LibertySearchAlgorithm) findRen(arbitraryPoint types1.Point) (*types3.
 // 石の連の探索
 //
 // * 再帰関数
-func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here types1.Point) {
+func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here point.Point) {
 
 	// 石のチェック
 	ls.checkBoard.Overwrite(here, Mark_BitStone)
@@ -87,7 +87,7 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here types1.Point) {
 	ls.foundRen.AddLocation(here)
 
 	// 隣接する交点毎に
-	var eachAdjacent = func(dir types2.Cell_4Directions, p types1.Point) {
+	var eachAdjacent = func(dir types2.Cell_4Directions, p point.Point) {
 
 		var stone = ls.board.GetStoneAt(p) // 石の色
 		switch stone {
@@ -124,11 +124,11 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here types1.Point) {
 
 // 空点の連の探索
 // - 再帰関数
-func (ls *LibertySearchAlgorithm) searchSpaceRen(here types1.Point) {
+func (ls *LibertySearchAlgorithm) searchSpaceRen(here point.Point) {
 	ls.checkBoard.Overwrite(here, Mark_BitStone)
 	ls.foundRen.AddLocation(here)
 
-	var eachAdjacent = func(dir types2.Cell_4Directions, p types1.Point) {
+	var eachAdjacent = func(dir types2.Cell_4Directions, p point.Point) {
 		// 探索済みならスキップ
 		if ls.checkBoard.Contains(p, Mark_BitStone) {
 			return

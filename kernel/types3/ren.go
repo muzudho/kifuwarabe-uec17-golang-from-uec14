@@ -5,6 +5,7 @@ import (
 	"math"
 	"strings"
 
+	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
 	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
@@ -23,11 +24,11 @@ type Ren struct {
 	// 石
 	Stone types2.Stone
 	// 要素の石の位置
-	Locations []types1.Point
+	Locations []point.Point
 	// 呼吸点の位置
-	LibertyLocations []types1.Point
+	LibertyLocations []point.Point
 	// 最小の場所。Idとして利用することを想定
-	MinimumLocation types1.Point
+	MinimumLocation point.Point
 }
 
 // NewRen - 連を新規作成
@@ -64,20 +65,20 @@ func (r *Ren) GetAdjacentColor() types1.Color {
 }
 
 // GetMinimumLocation - 最小の場所。Idとして利用することを想定
-func (r *Ren) GetMinimumLocation() types1.Point {
+func (r *Ren) GetMinimumLocation() point.Point {
 	return r.MinimumLocation
 }
 
 // AddLocation - 場所の追加
-func (r *Ren) AddLocation(location types1.Point) {
+func (r *Ren) AddLocation(location point.Point) {
 	r.Locations = append(r.Locations, location)
 
 	// 最小の数を更新
-	r.MinimumLocation = types1.Point(math.Min(float64(r.MinimumLocation), float64(location)))
+	r.MinimumLocation = point.Point(math.Min(float64(r.MinimumLocation), float64(location)))
 }
 
 // ForeachLocation - 場所毎に
-func (r *Ren) ForeachLocation(setLocation func(int, types1.Point)) {
+func (r *Ren) ForeachLocation(setLocation func(int, point.Point)) {
 	for i, point := range r.Locations {
 		setLocation(i, point)
 	}
@@ -87,7 +88,7 @@ func (r *Ren) ForeachLocation(setLocation func(int, types1.Point)) {
 //
 // Example: `22 23 24 25`
 func (r *Ren) Dump() string {
-	var convertLocation = func(location types1.Point) string {
+	var convertLocation = func(location point.Point) string {
 		return fmt.Sprintf("%d", location)
 	}
 	var tokens = r.createCoordBelt(r.Locations, convertLocation)
@@ -96,7 +97,7 @@ func (r *Ren) Dump() string {
 
 // 文字列の配列を作成
 // Example: {`22`, `23` `24`, `25`}
-func (r *Ren) createCoordBelt(locations []types1.Point, convertLocation func(types1.Point) string) []string {
+func (r *Ren) createCoordBelt(locations []point.Point, convertLocation func(point.Point) string) []string {
 	var tokens []string
 
 	// 全ての要素
@@ -109,7 +110,7 @@ func (r *Ren) createCoordBelt(locations []types1.Point, convertLocation func(typ
 }
 
 // RefreshToExternalFile - 外部ファイルに出力されてもいいように内部状態を整形します
-func (r *Ren) RefreshToExternalFile(convertLocation func(types1.Point) string) {
+func (r *Ren) RefreshToExternalFile(convertLocation func(point.Point) string) {
 	{
 		// stone to Sto
 		// Examples: `.`, `x`, `o`, `+`

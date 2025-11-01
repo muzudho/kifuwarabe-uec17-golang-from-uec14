@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
+	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
 
@@ -34,7 +34,7 @@ func (k *Kernel) DoSetBoard(command string, logg *Logger) {
 		}
 
 		var size = k.Position.Board.coordinate.GetMemoryArea()
-		var i types1.Point = 0
+		var i point.Point = 0
 		for _, c := range string(fileData) {
 			var str = string([]rune{c})
 			var isOk, stone = types2.GetStoneFromChar(str, getDefaultStone)

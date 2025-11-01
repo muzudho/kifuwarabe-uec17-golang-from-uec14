@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
+	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 	types3 "github.com/muzudho/kifuwarabe-uec17/kernel/types3"
 )
@@ -61,7 +61,7 @@ func (k *Kernel) RefreshRenToInternal(r *types3.Ren) bool {
 		if 0 < len(r.Loc) {
 			var codes = strings.Split(r.Loc, " ")
 
-			var numbers = []types1.Point{}
+			var numbers = []point.Point{}
 			for _, code := range codes {
 				var location = k.Position.Board.coordinate.GetPointFromGtpMove(code)
 				numbers = append(numbers, location)
@@ -76,7 +76,7 @@ func (k *Kernel) RefreshRenToInternal(r *types3.Ren) bool {
 		if 0 < len(r.LibLoc) {
 			var codes = strings.Split(r.LibLoc, " ")
 
-			var numbers = []types1.Point{}
+			var numbers = []point.Point{}
 			for _, code := range codes {
 				var location = k.Position.Board.coordinate.GetPointFromGtpMove(code)
 				numbers = append(numbers, location)
@@ -92,7 +92,7 @@ func (k *Kernel) RefreshRenToInternal(r *types3.Ren) bool {
 // RemoveRen - 石の連を打ち上げます
 func (k *Kernel) RemoveRen(ren *types3.Ren) {
 	// 空点をセット
-	var setLocation = func(i int, location types1.Point) {
+	var setLocation = func(i int, location point.Point) {
 		k.Position.Board.SetStoneAt(location, types2.Stone_Space)
 	}
 
@@ -108,7 +108,7 @@ func (k *Kernel) FindAllRens() {
 
 	var maxPosNthFigure = k.Record.GetMaxPosNthFigure()
 
-	var setLocation = func(location types1.Point) {
+	var setLocation = func(location point.Point) {
 
 		var libertySearchAlgorithm = NewLibertySearchAlgorithm(k.Position.Board, k.Position.CheckBoard)
 		var ren, isFound = libertySearchAlgorithm.findRen(location)
