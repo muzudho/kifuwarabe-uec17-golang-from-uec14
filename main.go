@@ -122,7 +122,7 @@ func main() {
 			log1.J.Infow("input", "command", command) // コンピューター向けの出力
 
 			// [O11o_3o0]
-			var isHandled = kernel1.Execute(command, log1)
+			var isHandled = kernel1.ReadCommand(command, log1)
 			if isHandled {
 				continue
 			}

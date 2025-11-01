@@ -66,29 +66,59 @@ func NewDirtyKernel(gameRuleSettings game_rule_settings.GameRuleSettings, boardW
 	return k
 }
 
-// Execute - 実行
+// ReadCommand - 実行
 //
 // Returns
 // -------
 // isHandled : bool
 // 正常終了またはエラーなら真、無視したら偽
-func (k *Kernel) Execute(command string, logg *logger.Logger) bool {
+func (k *Kernel) ReadCommand(command string, log1 *logger.Logger) bool {
 
 	var tokens = strings.Split(command, " ")
 	switch tokens[0] {
 
-	// この下にコマンドを挟んでいく
-	// -------------------------
+	// ========================================
+	// GTP 対応　＞　大会参加向け
+	// ========================================
 
-	case "board_set": // [O15o__14o2o0]
-		// Example: `board_set file data/board1.txt`
-		k.DoSetBoard(command, logg)
-		logg.C.Infof("=\n")
-		logg.J.Infow("ok")
+	// 盤サイズの設定
+	// Example: `boardsize 19`
+	case "boardsize": // [O15o__11o0]
+		var sideLength, err = strconv.Atoi(tokens[1])
+
+		if err != nil {
+			log1.C.Infof("? unexpected sideLength:%s\n", tokens[1])
+			log1.J.Infow("error", "sideLength", tokens[1])
+			return true
+		}
+
+		k.Position.Board.Init(sideLength, sideLength)
+		log1.C.Info("=\n")
+		log1.J.Infow("ok")
+
 		return true
 
-	case "board": // [O13o0]
-		// 人間向けの出力
+	// 石を置く
+	// Example: `play black A19`
+	case "play":
+		k.DoPlay(command, log1)
+		return true
+
+	// ========================================
+	// 独自実装
+	// ========================================
+
+	// 独自実装：　盤をファイルから読み込んでセットする
+	// Example: `board_set file data/board1.txt`
+	case "board_set":
+		k.DoSetBoard(command, log1)
+		log1.C.Infof("=\n")
+		log1.J.Infow("ok")
+		return true
+
+	// 独自実装：　人間向けに簡易の盤表示
+	// Example: `board`
+	case "board":
 		{
 			// 25列まで対応
 			const fileSimbols = "ABCDEFGHJKLMNOPQRSTUVWXYZ"
@@ -123,7 +153,7 @@ func (k *Kernel) Execute(command string, logg *logger.Logger) bool {
 			}
 			k.Position.Board.GetCoordinate().ForeachLikeText(setPoint, doNewline)
 			sb.WriteString("\n. '''\n")
-			logg.C.Info(sb.String())
+			log1.C.Info(sb.String())
 		}
 		// コンピューター向けの出力
 		{
@@ -137,35 +167,20 @@ func (k *Kernel) Execute(command string, logg *logger.Logger) bool {
 				// pass
 			}
 			k.Position.Board.GetCoordinate().ForeachLikeText(setPoint, doNewline)
-			logg.J.Infow("output", "board", sb.String())
+			log1.J.Infow("output", "board", sb.String())
 		}
 		return true
 
-	case "boardsize": // [O15o__11o0]
-		// Example: `boardsize 19`
-		var sideLength, err = strconv.Atoi(tokens[1])
-
-		if err != nil {
-			logg.C.Infof("? unexpected sideLength:%s\n", tokens[1])
-			logg.J.Infow("error", "sideLength", tokens[1])
-			return true
-		}
-
-		k.Position.Board.Init(sideLength, sideLength)
-		logg.C.Info("=\n")
-		logg.J.Infow("ok")
-
-		return true
-
+	// 独自実装：目に打たない
+	// Example 1: `can_not_put_on_my_eye get`
+	// Example 2: `can_not_put_on_my_eye set true``
 	case "can_not_put_on_my_eye": // [O22o4o2o_1o0]
-		// Example 1: "can_not_put_on_my_eye get"
-		// Example 2: "can_not_put_on_my_eye set true"
 		var method = tokens[1]
 		switch method {
 		case "get":
 			var value = k.Position.CanNotPutOnMyEye
-			logg.C.Infof("= %t\n", value)
-			logg.J.Infow("ok", "value", value)
+			log1.C.Infof("= %t\n", value)
+			log1.J.Infow("ok", "value", value)
 			return true
 
 		case "set":
@@ -178,28 +193,28 @@ func (k *Kernel) Execute(command string, logg *logger.Logger) bool {
 				k.Position.CanNotPutOnMyEye = false
 				return true
 			default:
-				logg.C.Infof("? unexpected method:%s value:%s\n", method, value)
-				logg.J.Infow("error", "method", method, "value", value)
+				log1.C.Infof("? unexpected method:%s value:%s\n", method, value)
+				log1.J.Infow("error", "method", method, "value", value)
 				return true
 			}
 
 		default:
-			logg.C.Infof("? unexpected method:%s\n", method)
-			logg.J.Infow("error", "method", method)
+			log1.C.Infof("? unexpected method:%s\n", method)
+			log1.J.Infow("error", "method", method)
 			return true
 		}
 
-	case "find_all_rens": // [O23o_2o2o0]
-		// Example: `find_all_rens`
+	// 独自実装：　すべての連を取得
+	// Example: `find_all_rens`
+	case "find_all_rens":
 		k.FindAllRens()
-		logg.C.Infof("=\n")
-		logg.J.Infow("ok")
+		log1.C.Infof("=\n")
+		log1.J.Infow("ok")
 		return true
 
-	case "play": // [O20o0]
-		// Example: `play black A19`
-		k.DoPlay(command, logg)
-		return true
+	// ========================================
+	// 未整理
+	// ========================================
 
 	case "record": // [O12o__11o_5o0]
 		// Example: "record"
@@ -226,8 +241,8 @@ func (k *Kernel) Execute(command string, logg *logger.Logger) bool {
 		if 0 < len(text) {
 			text = text[:len(text)-1]
 		}
-		logg.C.Infof("= record:'%s'\n", text)
-		logg.J.Infow("ok", "record", text)
+		log1.C.Infof("= record:'%s'\n", text)
+		log1.J.Infow("ok", "record", text)
 		return true
 
 	case "remove_ren": // [O22o5o2o0]
@@ -237,19 +252,19 @@ func (k *Kernel) Execute(command string, logg *logger.Logger) bool {
 		var ren, isFound = k.GetLiberty(point)
 		if isFound {
 			k.RemoveRen(ren)
-			logg.C.Infof("=\n")
-			logg.J.Infow("ok")
+			log1.C.Infof("=\n")
+			log1.J.Infow("ok")
 			return true
 		}
 
-		logg.C.Infof("? not found ren coord:%s%\n", coord)
-		logg.J.Infow("error not found ren", "coord", coord)
+		log1.C.Infof("? not found ren coord:%s%\n", coord)
+		log1.J.Infow("error not found ren", "coord", coord)
 		return false
 
 	case "rendb_dump": // [O12o__11o__10o4o0]
 		var text = k.renDb.Dump()
-		logg.C.Infof("= dump'''%s\n'''\n", text)
-		logg.J.Infow("ok", "dump", text)
+		log1.C.Infof("= dump'''%s\n'''\n", text)
+		log1.J.Infow("ok", "dump", text)
 		return true
 
 	case "rendb_load": // [O12o__11o__10o5o__10o1o0]
@@ -257,15 +272,15 @@ func (k *Kernel) Execute(command string, logg *logger.Logger) bool {
 		// * ファイルパスにスペースがはいっていてはいけない
 		var path = tokens[1]
 		var onError = func(err error) bool {
-			logg.C.Infof("? error:%s\n", err)
-			logg.J.Infow("error", "err", err)
+			log1.C.Infof("? error:%s\n", err)
+			log1.J.Infow("error", "err", err)
 			return false
 		}
 
 		var isOk = k.LoadRenDb(path, onError)
 		if isOk {
-			logg.C.Infof("=\n")
-			logg.J.Infow("ok")
+			log1.C.Infof("=\n")
+			log1.J.Infow("ok")
 			return true
 		}
 		return false
@@ -280,15 +295,15 @@ func (k *Kernel) Execute(command string, logg *logger.Logger) bool {
 		}
 
 		var onError = func(err error) bool {
-			logg.C.Infof("? error:%s\n", err)
-			logg.J.Infow("error", "err", err)
+			log1.C.Infof("? error:%s\n", err)
+			log1.J.Infow("error", "err", err)
 			return false
 		}
 
 		var isOk = k.renDb.Save(path, convertLocation, onError)
 		if isOk {
-			logg.C.Infof("=\n")
-			logg.J.Infow("ok")
+			log1.C.Infof("=\n")
+			log1.J.Infow("ok")
 			return true
 		}
 
@@ -297,15 +312,15 @@ func (k *Kernel) Execute(command string, logg *logger.Logger) bool {
 	case "test_coord": // [O12o__10o2o0]
 		// Example: "test_coord A13"
 		var point = k.Position.Board.Coordinate.GetPointFromGtpMove(tokens[1])
-		logg.C.Infof("= %d\n", point)
-		logg.J.Infow("output", "point", point)
+		log1.C.Infof("= %d\n", point)
+		log1.J.Infow("output", "point", point)
 		return true
 
 	case "test_file": // [O12o__10o2o0]
 		// Example: "test_file A"
 		var file = board_coordinate.GetFileFromCode(tokens[1])
-		logg.C.Infof("= %s\n", file)
-		logg.J.Infow("output", "file", file)
+		log1.C.Infof("= %s\n", file)
+		log1.J.Infow("output", "file", file)
 		return true
 
 	case "test_get_liberty": // [O22o2o5o0]
@@ -314,74 +329,74 @@ func (k *Kernel) Execute(command string, logg *logger.Logger) bool {
 		var point = k.Position.Board.Coordinate.GetPointFromGtpMove(coord)
 		var ren, isFound = k.GetLiberty(point)
 		if isFound {
-			logg.C.Infof("= ren stone:%s area:%d libertyArea:%d adjacentColor:%s\n", ren.Stone, ren.GetArea(), ren.GetLibertyArea(), ren.AdjacentColor)
-			logg.J.Infow("output ren", "color", ren.Stone, "area", ren.GetArea(), "libertyArea", ren.GetLibertyArea(), "adjacentColor", ren.AdjacentColor)
+			log1.C.Infof("= ren stone:%s area:%d libertyArea:%d adjacentColor:%s\n", ren.Stone, ren.GetArea(), ren.GetLibertyArea(), ren.AdjacentColor)
+			log1.J.Infow("output ren", "color", ren.Stone, "area", ren.GetArea(), "libertyArea", ren.GetLibertyArea(), "adjacentColor", ren.AdjacentColor)
 			return true
 		}
 
-		logg.C.Infof("? not found ren coord:%s%\n", coord)
-		logg.J.Infow("error not found ren", "coord", coord)
+		log1.C.Infof("? not found ren coord:%s%\n", coord)
+		log1.J.Infow("error not found ren", "coord", coord)
 		return false
 
 	case "test_get_point_from_code": // [O16o1o0]
 		// Example: "test_get_point_from_code A1"
 		var point = k.Position.Board.Coordinate.GetPointFromGtpMove(tokens[1])
 		var code = k.Position.Board.Coordinate.GetGtpMoveFromPoint(point)
-		logg.C.Infof("= %d %s", point, code)
-		logg.J.Infow("ok", "point", point, "code", code)
+		log1.C.Infof("= %d %s", point, code)
+		log1.J.Infow("ok", "point", point, "code", code)
 		return true
 
 	case "test_get_point_from_xy": // [O12o__11o2o0]
 		// Example: "test_get_point_from_xy 2 3"
 		var x, errX = strconv.Atoi(tokens[1])
 		if errX != nil {
-			logg.C.Infof("? unexpected x:%s\n", tokens[1])
-			logg.J.Infow("error", "x", tokens[1], "err", errX)
+			log1.C.Infof("? unexpected x:%s\n", tokens[1])
+			log1.J.Infow("error", "x", tokens[1], "err", errX)
 			return true
 		}
 		var y, errY = strconv.Atoi(tokens[2])
 		if errY != nil {
-			logg.C.Infof("? unexpected y:%s\n", tokens[2])
-			logg.J.Infow("error", "y", tokens[2], "err", errY)
+			log1.C.Infof("? unexpected y:%s\n", tokens[2])
+			log1.J.Infow("error", "y", tokens[2], "err", errY)
 			return true
 		}
 
 		var point = k.Position.Board.Coordinate.GetPointFromXy(x, y)
-		logg.C.Infof("= %d\n", point)
-		logg.J.Infow("output", "point", point)
+		log1.C.Infof("= %d\n", point)
+		log1.J.Infow("output", "point", point)
 		return true
 
 	case "test_rank": // [O12o__10o2o0]
 		// Example: "test_rank 13"
 		var rank = board_coordinate.GetRankFromCode(tokens[1])
-		logg.C.Infof("= %s\n", rank)
-		logg.J.Infow("output", "rank", rank)
+		log1.C.Infof("= %s\n", rank)
+		log1.J.Infow("output", "rank", rank)
 		return true
 
 	case "test_x": // [O12o__10o2o0]
 		// Example: "test_x 18"
 		var x, err = strconv.Atoi(tokens[1])
 		if err != nil {
-			logg.C.Infof("? unexpected x:%s\n", tokens[1])
-			logg.J.Infow("error", "x", tokens[1])
+			log1.C.Infof("? unexpected x:%s\n", tokens[1])
+			log1.J.Infow("error", "x", tokens[1])
 			return true
 		}
 		var file = board_coordinate.GetFileFromX(x)
-		logg.C.Infof("= %s\n", file)
-		logg.J.Infow("output", "file", file)
+		log1.C.Infof("= %s\n", file)
+		log1.J.Infow("output", "file", file)
 		return true
 
 	case "test_y": // [O12o__10o2o0]
 		// Example: "test_y 18"
 		var y, err = strconv.Atoi(tokens[1])
 		if err != nil {
-			logg.C.Infof("? unexpected y:%s\n", tokens[1])
-			logg.J.Infow("error", "y", tokens[1])
+			log1.C.Infof("? unexpected y:%s\n", tokens[1])
+			log1.J.Infow("error", "y", tokens[1])
 			return true
 		}
 		var rank = board_coordinate.GetRankFromY(y)
-		logg.C.Infof("= %s\n", rank)
-		logg.J.Infow("output", "rank", rank)
+		log1.C.Infof("= %s\n", rank)
+		log1.J.Infow("output", "rank", rank)
 		return true
 
 	// この上にコマンドを挟んでいく
