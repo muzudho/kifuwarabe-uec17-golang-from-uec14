@@ -15,8 +15,8 @@ import (
 	logger "github.com/muzudho/kifuwarabe-uec17/kernel/level_1_for_maintenance/logger"
 
 	// Level 1
+	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/moves_num"
 	komi_float "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/komi_float"
-	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/moves_num"
 
 	// Level 2
 	game_rule_settings "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/game_rule_settings"

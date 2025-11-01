@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	// Level 1
+	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/point"
 	"github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/geta"
-	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/moves_num"
 
 	// Level 2
 	record_item "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/record_item"
