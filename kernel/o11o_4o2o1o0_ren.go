@@ -1,5 +1,3 @@
-// BOF [O11o_4o2o1o0]
-
 package kernel
 
 import (
@@ -25,11 +23,11 @@ type Ren struct {
 	// 石
 	stone types2.Stone
 	// 要素の石の位置
-	locations []Point
+	locations []types1.Point
 	// 呼吸点の位置
-	libertyLocations []Point
+	libertyLocations []types1.Point
 	// 最小の場所。Idとして利用することを想定
-	minimumLocation Point
+	minimumLocation types1.Point
 }
 
 // NewRen - 連を新規作成
@@ -66,20 +64,20 @@ func (r *Ren) GetAdjacentColor() types1.Color {
 }
 
 // GetMinimumLocation - 最小の場所。Idとして利用することを想定
-func (r *Ren) GetMinimumLocation() Point {
+func (r *Ren) GetMinimumLocation() types1.Point {
 	return r.minimumLocation
 }
 
 // AddLocation - 場所の追加
-func (r *Ren) AddLocation(location Point) {
+func (r *Ren) AddLocation(location types1.Point) {
 	r.locations = append(r.locations, location)
 
 	// 最小の数を更新
-	r.minimumLocation = Point(math.Min(float64(r.minimumLocation), float64(location)))
+	r.minimumLocation = types1.Point(math.Min(float64(r.minimumLocation), float64(location)))
 }
 
 // ForeachLocation - 場所毎に
-func (r *Ren) ForeachLocation(setLocation func(int, Point)) {
+func (r *Ren) ForeachLocation(setLocation func(int, types1.Point)) {
 	for i, point := range r.locations {
 		setLocation(i, point)
 	}
@@ -89,7 +87,7 @@ func (r *Ren) ForeachLocation(setLocation func(int, Point)) {
 //
 // Example: `22 23 24 25`
 func (r *Ren) Dump() string {
-	var convertLocation = func(location Point) string {
+	var convertLocation = func(location types1.Point) string {
 		return fmt.Sprintf("%d", location)
 	}
 	var tokens = r.createCoordBelt(r.locations, convertLocation)
@@ -98,7 +96,7 @@ func (r *Ren) Dump() string {
 
 // 文字列の配列を作成
 // Example: {`22`, `23` `24`, `25`}
-func (r *Ren) createCoordBelt(locations []Point, convertLocation func(Point) string) []string {
+func (r *Ren) createCoordBelt(locations []types1.Point, convertLocation func(types1.Point) string) []string {
 	var tokens []string
 
 	// 全ての要素
@@ -111,7 +109,7 @@ func (r *Ren) createCoordBelt(locations []Point, convertLocation func(Point) str
 }
 
 // RefreshToExternalFile - 外部ファイルに出力されてもいいように内部状態を整形します
-func (r *Ren) RefreshToExternalFile(convertLocation func(Point) string) {
+func (r *Ren) RefreshToExternalFile(convertLocation func(types1.Point) string) {
 	{
 		// stone to Sto
 		// Examples: `.`, `x`, `o`, `+`
@@ -130,5 +128,3 @@ func (r *Ren) RefreshToExternalFile(convertLocation func(Point) string) {
 		r.LibLoc = strings.Join(tokens, " ")
 	}
 }
-
-// EOF [O11o_4o2o1o0]

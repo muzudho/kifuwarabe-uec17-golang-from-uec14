@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
 )
 
 // RenId - 連データベースに格納される連のId
@@ -15,7 +17,7 @@ import (
 type RenId string
 
 // GetRenId - 連のIdを取得
-func GetRenId(boardMemoryWidth int, positionNthFigure int, positionNumber PositionNumberInt, minimumLocation Point) RenId {
+func GetRenId(boardMemoryWidth int, positionNthFigure int, positionNumber PositionNumberInt, minimumLocation types1.Point) RenId {
 	var posNth = positionNumber + geta
 	var coord = getRenIdFromPointOnBoard(boardMemoryWidth, minimumLocation)
 
@@ -50,7 +52,7 @@ func (db *RenDb) Init(boardWidth int, boardHeight int) {
 }
 
 // Save - 連データベースの外部ファイル書込
-func (db *RenDb) Save(path string, convertLocation func(Point) string, onError func(error) bool) bool {
+func (db *RenDb) Save(path string, convertLocation func(types1.Point) string, onError func(error) bool) bool {
 
 	// 外部ファイルに出力するための、内部状態の整形
 	db.RefreshToExternalFile(convertLocation)
@@ -110,7 +112,7 @@ func (db *RenDb) Dump() string {
 }
 
 // RefreshToExternalFile - 外部ファイルに出力されてもいいように内部状態を整形します
-func (db *RenDb) RefreshToExternalFile(convertLocation func(Point) string) {
+func (db *RenDb) RefreshToExternalFile(convertLocation func(types1.Point) string) {
 	for _, ren := range db.Rens {
 		ren.RefreshToExternalFile(convertLocation)
 	}

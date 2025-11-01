@@ -6,6 +6,7 @@ import (
 	"math"
 	"strconv"
 
+	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
 	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
 
@@ -60,9 +61,9 @@ func (r *Record) GetPositionNumber() PositionNumberInt {
 }
 
 // Push - 末尾に追加
-func (r *Record) Push(placePlay Point,
+func (r *Record) Push(placePlay types1.Point,
 	// [O22o7o1o0] コウの位置
-	ko Point) {
+	ko types1.Point) {
 
 	var item = r.items[r.positionNumber]
 	item.placePlay = placePlay
@@ -74,7 +75,7 @@ func (r *Record) Push(placePlay Point,
 }
 
 // RemoveTail - 末尾を削除
-func (r *Record) RemoveTail(placePlay Point) {
+func (r *Record) RemoveTail(placePlay types1.Point) {
 	r.positionNumber--
 	r.items[r.positionNumber].Clear()
 }
@@ -87,7 +88,7 @@ func (r *Record) ForeachItem(setItem func(PositionNumberInt, *RecordItem)) {
 }
 
 // IsKo - コウか？
-func (r *Record) IsKo(placePlay Point) bool {
+func (r *Record) IsKo(placePlay types1.Point) bool {
 	// [O22o7o1o0] コウの判定
 	// 2手前に着手して石をぴったり１つ打ち上げたとき、その着手点はコウだ
 	var positionNumber = r.GetPositionNumber()
@@ -98,5 +99,3 @@ func (r *Record) IsKo(placePlay Point) bool {
 
 	return false
 }
-
-// EOF [O12o__11o_2o0]

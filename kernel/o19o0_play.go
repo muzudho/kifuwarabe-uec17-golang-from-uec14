@@ -6,6 +6,7 @@ import (
 	"math"
 	"strings"
 
+	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
 	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
 
@@ -90,7 +91,7 @@ func (k *Kernel) DoPlay(command string, logg *Logger) {
 // =======
 // isOk : bool
 // - 石を置けたら真、置けなかったら偽
-func (k *Kernel) Play(stoneA types2.Stone, placePlay Point, logg *Logger,
+func (k *Kernel) Play(stoneA types2.Stone, placePlay types1.Point, logg *Logger,
 	// [O22o1o2o0] onMasonry
 	onMasonry func() bool,
 	// [O22o3o1o0] onOpponentEye
@@ -168,7 +169,7 @@ func (k *Kernel) Play(stoneA types2.Stone, placePlay Point, logg *Logger,
 	}
 
 	// [O22o7o2o0] コウの判定
-	var ko = Point(0)
+	var ko = types1.Point(0)
 	if capturedCount == 1 {
 		ko = placePlay
 	}
@@ -188,13 +189,13 @@ func (k *Kernel) Play(stoneA types2.Stone, placePlay Point, logg *Logger,
 // isExists : bool
 // renToRemove : [4]*Ren
 // 隣接する東、北、西、南にある石を含む連
-func (k *Kernel) GetRenToCapture(placePlay Point) (bool, [4]*Ren) {
+func (k *Kernel) GetRenToCapture(placePlay types1.Point) (bool, [4]*Ren) {
 	// [O22o6o1o0]
 	var isExists bool
 	var rensToRemove [4]*Ren
-	var renIds = [4]Point{math.MaxInt, math.MaxInt, math.MaxInt, math.MaxInt}
+	var renIds = [4]types1.Point{math.MaxInt, math.MaxInt, math.MaxInt, math.MaxInt}
 
-	var setAdjacentPoint = func(dir Cell_4Directions, adjacentP Point) {
+	var setAdjacentPoint = func(dir Cell_4Directions, adjacentP types1.Point) {
 		var adjacentR, isFound = k.GetLiberty(adjacentP)
 		if isFound {
 			// 同じ連を数え上げるのを防止する

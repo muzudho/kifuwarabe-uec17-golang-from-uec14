@@ -1,6 +1,6 @@
-// BOF [O22o2o2o0]
-
 package kernel
+
+import types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
 
 // Mark - 目印
 type Mark uint8
@@ -43,44 +43,42 @@ func (cb *CheckBoard) Init(newBoardCoordinate BoardCoordinate) {
 	}
 
 	// 盤面のクリアー
-	for p := Point(0); p < Point(len(cb.cells)); p++ {
+	for p := types1.Point(0); p < types1.Point(len(cb.cells)); p++ {
 		cb.cells[p] = Mark_BitAllZeros
 	}
 }
 
 // GetAllBitsAt - 指定した交点の目印を取得
-func (cb *CheckBoard) GetAllBitsAt(point Point) Mark {
+func (cb *CheckBoard) GetAllBitsAt(point types1.Point) Mark {
 	return cb.cells[point]
 }
 
 // SetAllBitsAt - 指定した交点に目印を設定
-func (cb *CheckBoard) SetAllBitsAt(point Point, mark Mark) {
+func (cb *CheckBoard) SetAllBitsAt(point types1.Point, mark Mark) {
 	cb.cells[point] = mark
 }
 
 // ClearAllBitsAt - フラグを消す
-func (cb *CheckBoard) ClearAllBitsAt(point Point) {
+func (cb *CheckBoard) ClearAllBitsAt(point types1.Point) {
 	cb.cells[point] = Mark(0)
 }
 
 // IsZeroAt - 指定した交点に目印は付いていないか？
-func (cb *CheckBoard) IsZeroAt(point Point) bool {
+func (cb *CheckBoard) IsZeroAt(point types1.Point) bool {
 	return cb.cells[point] == Mark_BitAllZeros
 }
 
 // Overwrite - 上書き
-func (cb *CheckBoard) Overwrite(point Point, mark Mark) {
+func (cb *CheckBoard) Overwrite(point types1.Point, mark Mark) {
 	cb.cells[point] |= mark
 }
 
 // Erase - 消す
-func (cb *CheckBoard) Erase(point Point, mark Mark) {
+func (cb *CheckBoard) Erase(point types1.Point, mark Mark) {
 	cb.cells[point] &= ^mark // ^ はビット反転
 }
 
 // Contains - 含む
-func (cb *CheckBoard) Contains(point Point, mark Mark) bool {
+func (cb *CheckBoard) Contains(point types1.Point, mark Mark) bool {
 	return cb.cells[point]&mark == mark
 }
-
-// EOF [O22o2o2o0]

@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
 	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
 
@@ -83,7 +84,7 @@ func (k *Kernel) Execute(command string, logg *Logger) bool {
 .    `, filesLabel))
 
 			var rowNumber = 1
-			var setPoint = func(point Point) {
+			var setPoint = func(point types1.Point) {
 				var stone = k.Position.Board.cells[point]
 				sb.WriteString(fmt.Sprintf("%v", stone))
 			}
@@ -106,7 +107,7 @@ func (k *Kernel) Execute(command string, logg *Logger) bool {
 		{
 			var sb strings.Builder
 
-			var setPoint = func(point Point) {
+			var setPoint = func(point types1.Point) {
 				var stone = k.Position.Board.cells[point]
 				sb.WriteString(fmt.Sprintf("%v", stone))
 			}
@@ -189,7 +190,7 @@ func (k *Kernel) Execute(command string, logg *Logger) bool {
 
 			// [O22o7o4o0] コウを追加
 			var koStr string
-			if item.ko == Point(0) {
+			if item.ko == types1.Point(0) {
 				koStr = ""
 			} else {
 				koStr = fmt.Sprintf("(%s)", k.Position.Board.coordinate.GetGtpMoveFromPoint(item.ko))
@@ -252,7 +253,7 @@ func (k *Kernel) Execute(command string, logg *Logger) bool {
 		// * ファイルパスにスペースがはいっていてはいけない
 		var path = tokens[1]
 
-		var convertLocation = func(location Point) string {
+		var convertLocation = func(location types1.Point) string {
 			return k.Position.Board.coordinate.GetGtpMoveFromPoint(location)
 		}
 
