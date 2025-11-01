@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	// Level 1
+	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 
 	// Level 2
@@ -22,8 +23,8 @@ import (
 type RenId string
 
 // GetRenId - 連のIdを取得
-func GetRenId(boardMemoryWidth int, positionNthFigure int, positionNumber PositionNumberInt, minimumLocation point.Point) RenId {
-	var posNth = positionNumber + geta
+func GetRenId(boardMemoryWidth int, positionNthFigure int, movesNum1 moves_num.MovesNum, minimumLocation point.Point) RenId {
+	var posNth = movesNum1 + geta
 	var coord = board_coordinate.GetRenIdFromPointOnBoard(boardMemoryWidth, minimumLocation)
 
 	return RenId(fmt.Sprintf("%0*d,%s", positionNthFigure, posNth, coord))
@@ -91,8 +92,8 @@ func (db *RenDb) GetRen(renId RenId) (*rentype.Ren, bool) {
 
 // RegisterRen - 連を登録
 // * すでに Id が登録されているなら、上書きしない
-func (db *RenDb) RegisterRen(positionNthFigure int, positionNumber PositionNumberInt, ren1 *rentype.Ren) {
-	var renId = GetRenId(db.Header.GetBoardMemoryWidth(), positionNthFigure, positionNumber, ren1.MinimumLocation)
+func (db *RenDb) RegisterRen(positionNthFigure int, movesNum1 moves_num.MovesNum, ren1 *rentype.Ren) {
+	var renId = GetRenId(db.Header.GetBoardMemoryWidth(), positionNthFigure, movesNum1, ren1.MinimumLocation)
 
 	var _, isExists = db.Rens[renId]
 	if !isExists {

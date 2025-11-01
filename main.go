@@ -12,6 +12,9 @@ import (
 
 	dbg "github.com/muzudho/kifuwarabe-uec17/debugger"
 
+	// Level 1
+	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/moves_num"
+
 	// Level 2
 	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
 )
@@ -87,10 +90,10 @@ func main() {
 		}
 
 		// [O11o_3o0]
-		var gameRule = kernel.NewGameRule(kernel.KomiFloat(engineConfig.GetKomi()), kernel.PositionNumberInt(engineConfig.GetMaxPositionNumber()))
+		var gameRule = kernel.NewGameRule(kernel.KomiFloat(engineConfig.GetKomi()), moves_num.MovesNum(engineConfig.GetMaxPositionNumber()))
 		var kernel1 = kernel.NewDirtyKernel(*gameRule, engineConfig.GetBoardSize(), engineConfig.GetBoardSize(),
 			// [O12o__11o_4o0] 棋譜の初期化
-			kernel.PositionNumberInt(engineConfig.GetMaxPositionNumber()),
+			moves_num.MovesNum(engineConfig.GetMaxPositionNumber()),
 			stone.GetStoneOrDefaultFromTurn(engineConfig.GetPlayFirst(), onUnknownTurn))
 		// 設定ファイルの内容をカーネルへ反映
 		kernel1.Position.Board.Init(engineConfig.GetBoardSize(), engineConfig.GetBoardSize())

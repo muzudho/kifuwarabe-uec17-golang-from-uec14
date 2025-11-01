@@ -119,7 +119,7 @@ func (k *Kernel) FindAllRens() {
 		var ren, isFound = libertySearchAlgorithm.findRen(location)
 
 		if isFound {
-			k.renDb.RegisterRen(maxPosNthFigure, k.Record.positionNumber, ren)
+			k.renDb.RegisterRen(maxPosNthFigure, k.Record.movesNum1, ren)
 		}
 	}
 	// 盤上の枠の内側をスキャン。筋、段の順

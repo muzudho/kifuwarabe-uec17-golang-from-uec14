@@ -1,12 +1,10 @@
-// BOF [O11o_3o_10o1o0]
-
 package kernel
+
+// Level 1
+import moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/moves_num"
 
 // KomiFloat - コミ。 6.5 といった数字を入れるだけ。実行速度優先で 64bitに
 type KomiFloat float64
-
-// PositionNumberInt - 何手目
-type PositionNumberInt int
 
 // GameRule - 対局ルール
 type GameRule struct {
@@ -14,15 +12,15 @@ type GameRule struct {
 	komi KomiFloat
 
 	// 上限手数
-	maxPositionNumber PositionNumberInt
+	maxMovesNum moves_num.MovesNum
 }
 
 // NewGameRule - 新規作成
-func NewGameRule(komi KomiFloat, maxPositionNumber PositionNumberInt) *GameRule {
+func NewGameRule(komi KomiFloat, maxMovesNum moves_num.MovesNum) *GameRule {
 	var gr = new(GameRule)
 
 	gr.komi = komi
-	gr.maxPositionNumber = maxPositionNumber
+	gr.maxMovesNum = maxMovesNum
 
 	return gr
 }
@@ -33,8 +31,6 @@ func (gr *GameRule) GetKomi() KomiFloat {
 }
 
 // GetMaxPositionNumber - 上限手数
-func (gr *GameRule) GetMaxPositionNumber() PositionNumberInt {
-	return gr.maxPositionNumber
+func (gr *GameRule) GetMaxPositionNumber() moves_num.MovesNum {
+	return gr.maxMovesNum
 }
-
-// EOF [O11o_3o_10o1o0]

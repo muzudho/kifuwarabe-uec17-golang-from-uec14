@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	// Level 1
+	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 
 	// Level 2
@@ -34,15 +35,13 @@ type Kernel struct {
 
 // NewDirtyKernel - カーネルの新規作成
 // - 一部のメンバーは、初期化されていないので、別途初期化処理が要る
-func NewDirtyKernel(gameRule GameRule, boardWidht int, boardHeight int,
-	// [O12o__11o_2o0] 棋譜の初期化
-	maxPositionNumber PositionNumberInt, playFirst stone.Stone) *Kernel {
+func NewDirtyKernel(gameRule GameRule, boardWidht int, boardHeight int, maxMovesNum moves_num.MovesNum, playFirst stone.Stone) *Kernel {
 
 	var k = new(Kernel)
 	k.Position = NewDirtyPosition(gameRule, boardWidht, boardHeight)
 
 	// [O12o__11o_2o0] 棋譜の初期化
-	k.Record = *NewRecord(maxPositionNumber, k.Position.Board.coordinate.GetMemoryArea(), playFirst)
+	k.Record = *NewRecord(maxMovesNum, k.Position.Board.coordinate.GetMemoryArea(), playFirst)
 
 	// RenDb - [O12o__11o__10o3o0] 連データベース
 	k.renDb = NewRenDb(k.Position.Board.coordinate.GetWidth(), k.Position.Board.coordinate.GetHeight())
@@ -189,8 +188,8 @@ func (k *Kernel) Execute(command string, logg *Logger) bool {
 		// Example: "record"
 		var sb strings.Builder
 
-		var setPoint = func(positionNumber PositionNumberInt, item *record_item.RecordItem) {
-			var positionNth = positionNumber + geta // 基数を序数に変換
+		var setPoint = func(movesNum1 moves_num.MovesNum, item *record_item.RecordItem) {
+			var positionNth = movesNum1 + geta // 基数を序数に変換
 			var coord = k.Position.Board.coordinate.GetGtpMoveFromPoint(item.PlacePlay)
 			// sb.WriteString(fmt.Sprintf("[%d]%s ", positionNth, coord))
 
