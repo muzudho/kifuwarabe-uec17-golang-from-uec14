@@ -1,5 +1,3 @@
-// BOF [O11o_3o0]
-
 package level_31_controller
 
 import (
@@ -212,12 +210,8 @@ func (k *Kernel) ReadCommand(command string, log1 *logger.Logger) bool {
 		log1.J.Infow("ok")
 		return true
 
-	// ========================================
-	// 未整理
-	// ========================================
-
-	case "record": // [O12o__11o_5o0]
-		// Example: "record"
+	// Example: "record"
+	case "record":
 		var sb strings.Builder
 
 		var setPoint = func(movesNum1 moves_num.MovesNum, item *record_item.RecordItem) {
@@ -245,8 +239,8 @@ func (k *Kernel) ReadCommand(command string, log1 *logger.Logger) bool {
 		log1.J.Infow("ok", "record", text)
 		return true
 
-	case "remove_ren": // [O22o5o2o0]
-		// Example: `remove_ren B2`
+	// Example: `remove_ren B2`
+	case "remove_ren":
 		var coord = tokens[1]
 		var point = k.Position.Board.Coordinate.GetPointFromGtpMove(coord)
 		var ren, isFound = k.GetLiberty(point)
@@ -261,15 +255,17 @@ func (k *Kernel) ReadCommand(command string, log1 *logger.Logger) bool {
 		log1.J.Infow("error not found ren", "coord", coord)
 		return false
 
-	case "rendb_dump": // [O12o__11o__10o4o0]
+	// 連データベースの内容をダンプ出力
+	// Example: `rendb_dump`
+	case "rendb_dump":
 		var text = k.renDb.Dump()
 		log1.C.Infof("= dump'''%s\n'''\n", text)
 		log1.J.Infow("ok", "dump", text)
 		return true
 
-	case "rendb_load": // [O12o__11o__10o5o__10o1o0]
-		// Example: `rendb_load data/ren_db1_temp.json`
-		// * ファイルパスにスペースがはいっていてはいけない
+	// Example: `rendb_load data/ren_db1_temp.json`
+	// * ファイルパスにスペースがはいっていてはいけない
+	case "rendb_load":
 		var path = tokens[1]
 		var onError = func(err error) bool {
 			log1.C.Infof("? error:%s\n", err)
@@ -285,9 +281,9 @@ func (k *Kernel) ReadCommand(command string, log1 *logger.Logger) bool {
 		}
 		return false
 
-	case "rendb_save": // [O12o__11o__10o4o0]
-		// Example: `rendb_save data/ren_db1_temp.json`
-		// * ファイルパスにスペースがはいっていてはいけない
+	// Example: `rendb_save data/ren_db1_temp.json`
+	// * ファイルパスにスペースがはいっていてはいけない
+	case "rendb_save":
 		var path = tokens[1]
 
 		var convertLocation = func(location point.Point) string {
@@ -309,22 +305,24 @@ func (k *Kernel) ReadCommand(command string, log1 *logger.Logger) bool {
 
 		return false
 
-	case "test_coord": // [O12o__10o2o0]
-		// Example: "test_coord A13"
+	// 交点の符号を整数に変換
+	// Example: "test_coord A13"
+	case "test_coord":
 		var point = k.Position.Board.Coordinate.GetPointFromGtpMove(tokens[1])
 		log1.C.Infof("= %d\n", point)
 		log1.J.Infow("output", "point", point)
 		return true
 
-	case "test_file": // [O12o__10o2o0]
-		// Example: "test_file A"
+	// FIXME: A を入れると A を返す？
+	// Example: "test_file A"
+	case "test_file":
 		var file = board_coordinate.GetFileFromCode(tokens[1])
 		log1.C.Infof("= %s\n", file)
 		log1.J.Infow("output", "file", file)
 		return true
 
-	case "test_get_liberty": // [O22o2o5o0]
-		// Example: "test_get_liberty B2"
+	// Example: "test_get_liberty B2"
+	case "test_get_liberty":
 		var coord = tokens[1]
 		var point = k.Position.Board.Coordinate.GetPointFromGtpMove(coord)
 		var ren, isFound = k.GetLiberty(point)
@@ -338,16 +336,18 @@ func (k *Kernel) ReadCommand(command string, log1 *logger.Logger) bool {
 		log1.J.Infow("error not found ren", "coord", coord)
 		return false
 
-	case "test_get_point_from_code": // [O16o1o0]
-		// Example: "test_get_point_from_code A1"
+	// 交点の符号を整数に変換
+	// Example: "test_get_point_from_code A1"
+	case "test_get_point_from_code":
 		var point = k.Position.Board.Coordinate.GetPointFromGtpMove(tokens[1])
 		var code = k.Position.Board.Coordinate.GetGtpMoveFromPoint(point)
 		log1.C.Infof("= %d %s", point, code)
 		log1.J.Infow("ok", "point", point, "code", code)
 		return true
 
-	case "test_get_point_from_xy": // [O12o__11o2o0]
-		// Example: "test_get_point_from_xy 2 3"
+	// X, Y を 交点番号に変換
+	// Example: "test_get_point_from_xy 2 3"
+	case "test_get_point_from_xy":
 		var x, errX = strconv.Atoi(tokens[1])
 		if errX != nil {
 			log1.C.Infof("? unexpected x:%s\n", tokens[1])
@@ -366,15 +366,17 @@ func (k *Kernel) ReadCommand(command string, log1 *logger.Logger) bool {
 		log1.J.Infow("output", "point", point)
 		return true
 
-	case "test_rank": // [O12o__10o2o0]
-		// Example: "test_rank 13"
+	// 段を返す？
+	// Example: "test_rank 13"
+	case "test_rank":
 		var rank = board_coordinate.GetRankFromCode(tokens[1])
 		log1.C.Infof("= %s\n", rank)
 		log1.J.Infow("output", "rank", rank)
 		return true
 
-	case "test_x": // [O12o__10o2o0]
-		// Example: "test_x 18"
+	// 整数を列符号に変換
+	// Example: "test_x 18"
+	case "test_x":
 		var x, err = strconv.Atoi(tokens[1])
 		if err != nil {
 			log1.C.Infof("? unexpected x:%s\n", tokens[1])
@@ -386,8 +388,9 @@ func (k *Kernel) ReadCommand(command string, log1 *logger.Logger) bool {
 		log1.J.Infow("output", "file", file)
 		return true
 
-	case "test_y": // [O12o__10o2o0]
-		// Example: "test_y 18"
+	// 整数を段符号に変換
+	// Example: "test_y 18"
+	case "test_y":
 		var y, err = strconv.Atoi(tokens[1])
 		if err != nil {
 			log1.C.Infof("? unexpected y:%s\n", tokens[1])
@@ -399,13 +402,8 @@ func (k *Kernel) ReadCommand(command string, log1 *logger.Logger) bool {
 		log1.J.Infow("output", "rank", rank)
 		return true
 
-	// この上にコマンドを挟んでいく
-	// -------------------------
-
 	default:
 	}
 
 	return false
 }
-
-// EOF [O11o_3o0]
