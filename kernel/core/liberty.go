@@ -1,13 +1,13 @@
 package core
 
 import (
-	// Level 1
+	// Level 2.1
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/point"
 
-	// Level 3
-	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
+	// Level 4.1
+	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/level_4_game_rule/sublevel_1/ren"
 
-	// Level 4
+	//
 	liberty_search_algorithm "github.com/muzudho/kifuwarabe-uec17/kernel/types/level4/liberty_search_algorithm"
 )
 
