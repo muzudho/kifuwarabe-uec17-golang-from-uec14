@@ -7,13 +7,13 @@ import (
 	"strings"
 
 	// Level 1
+	geta "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/geta"
 	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/point"
-	geta "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/geta"
 	ren_id "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/ren_id"
 
 	// Level 2
-	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/board_coordinate"
+	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_2/board_coordinate"
 
 	// Level 3
 	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"

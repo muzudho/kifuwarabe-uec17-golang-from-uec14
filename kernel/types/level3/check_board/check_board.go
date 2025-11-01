@@ -6,7 +6,7 @@ import (
 	mark "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/mark"
 
 	// Level 2
-	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/board_coordinate"
+	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_2/board_coordinate"
 )
 
 // CheckBoard - チェック盤

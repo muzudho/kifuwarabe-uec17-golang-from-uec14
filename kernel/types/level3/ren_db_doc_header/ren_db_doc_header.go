@@ -1,7 +1,7 @@
 package ren_db_doc_header
 
 // Level 2
-import "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/board_coordinate"
+import "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_2/board_coordinate"
 
 // RenDbDocHeader - ヘッダー
 type RenDbDocHeader struct {
