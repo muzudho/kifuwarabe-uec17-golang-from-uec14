@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	// Level 2.1
-	color "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_attribute_like/sub_level_1/color"
+	color "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sub_level_1/color"
 )
 
 // Stone - 石の色
