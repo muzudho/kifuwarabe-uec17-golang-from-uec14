@@ -9,6 +9,7 @@ import (
 	// Level 1
 	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
+	ren_id "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/ren_id"
 
 	// Level 2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/board_coordinate"
@@ -17,17 +18,12 @@ import (
 	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
 )
 
-// RenId - 連データベースに格納される連のId
-// - 外部ファイルの可読性を優先して数値型ではなく文字列
-// - 昇順に並ぶように前ゼロを付ける
-type RenId string
-
 // GetRenId - 連のIdを取得
-func GetRenId(boardMemoryWidth int, positionNthFigure int, movesNum1 moves_num.MovesNum, minimumLocation point.Point) RenId {
+func GetRenId(boardMemoryWidth int, positionNthFigure int, movesNum1 moves_num.MovesNum, minimumLocation point.Point) ren_id.RenId {
 	var posNth = movesNum1 + geta
 	var coord = board_coordinate.GetRenIdFromPointOnBoard(boardMemoryWidth, minimumLocation)
 
-	return RenId(fmt.Sprintf("%0*d,%s", positionNthFigure, posNth, coord))
+	return ren_id.RenId(fmt.Sprintf("%0*d,%s", positionNthFigure, posNth, coord))
 }
 
 // RenDb - 連データベース
@@ -36,14 +32,14 @@ type RenDb struct {
 	Header RenDbDocHeader `json:"header"`
 
 	// 要素
-	Rens map[RenId]*rentype.Ren `json:"rens"`
+	Rens map[ren_id.RenId]*rentype.Ren `json:"rens"`
 }
 
 // NewRenDb - 連データベースを新規作成
 func NewRenDb(boardWidth int, boardHeight int) *RenDb {
 	var db = new(RenDb)
 	db.Header.Init(boardWidth, boardHeight)
-	db.Rens = make(map[RenId]*rentype.Ren)
+	db.Rens = make(map[ren_id.RenId]*rentype.Ren)
 	return db
 }
 
@@ -80,7 +76,7 @@ func (db *RenDb) Save(path string, convertLocation func(point.Point) string, onE
 }
 
 // FindRen - 連を取得
-func (db *RenDb) GetRen(renId RenId) (*rentype.Ren, bool) {
+func (db *RenDb) GetRen(renId ren_id.RenId) (*rentype.Ren, bool) {
 	var ren1, isOk = db.Rens[renId]
 
 	if isOk {
