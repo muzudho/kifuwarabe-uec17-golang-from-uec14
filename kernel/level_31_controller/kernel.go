@@ -35,7 +35,7 @@ import (
 	ren_db "github.com/muzudho/kifuwarabe-uec17/kernel/level_6_database/sublevel_3/ren_db"
 
 	// Level 7.1
-	position "github.com/muzudho/kifuwarabe-uec17/kernel/level_7_controller/sublevel_1/position"
+	position "github.com/muzudho/kifuwarabe-uec17/kernel/level_7_misc/sublevel_1/position"
 )
 
 // Kernel - カーネル

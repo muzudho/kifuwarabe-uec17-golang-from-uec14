@@ -10,9 +10,6 @@ import (
 
 	dbg "github.com/muzudho/kifuwarabe-uec17/debugger"
 
-	// Kernel
-	kernel_core "github.com/muzudho/kifuwarabe-uec17/kernel/core"
-
 	// Level 1
 	logger "github.com/muzudho/kifuwarabe-uec17/kernel/level_1_for_maintenance/logger"
 
@@ -25,6 +22,9 @@ import (
 
 	// Level 4.1
 	game_rule_settings "github.com/muzudho/kifuwarabe-uec17/kernel/level_4_game_rule/sublevel_1/game_rule_settings"
+
+	// Level 31
+	kernel_core "github.com/muzudho/kifuwarabe-uec17/kernel/level_31_controller"
 )
 
 // [O11o_1o0] グローバル変数として、バーチャルIOを１つ新規作成

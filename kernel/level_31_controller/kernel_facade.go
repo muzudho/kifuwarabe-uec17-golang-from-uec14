@@ -21,7 +21,7 @@ import (
 	ren_db "github.com/muzudho/kifuwarabe-uec17/kernel/level_6_database/sublevel_3/ren_db"
 
 	// Level 7.1
-	liberty_search_algorithm "github.com/muzudho/kifuwarabe-uec17/kernel/level_7_controller/sublevel_1/liberty_search_algorithm"
+	liberty_search_algorithm "github.com/muzudho/kifuwarabe-uec17/kernel/level_7_misc/sublevel_1/liberty_search_algorithm"
 )
 
 // LoadRenDb - [O12o__11o__10o5o__10o_10o0] 連データベースの外部ファイル読取

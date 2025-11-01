@@ -8,7 +8,7 @@ import (
 	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/level_4_game_rule/sublevel_1/ren"
 
 	// Level 7.1
-	liberty_search_algorithm "github.com/muzudho/kifuwarabe-uec17/kernel/level_7_controller/sublevel_1/liberty_search_algorithm"
+	liberty_search_algorithm "github.com/muzudho/kifuwarabe-uec17/kernel/level_7_misc/sublevel_1/liberty_search_algorithm"
 )
 
 // GetLiberty - 呼吸点の数え上げ。連の数え上げ。
