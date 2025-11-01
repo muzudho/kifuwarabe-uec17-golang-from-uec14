@@ -1,4 +1,4 @@
-package kernel
+package types2
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 const oneSideWallThickness = 1
 
 // 両側の枠の厚み。南北、または東西
-const bothSidesWallThickness = 2
+const BothSidesWallThickness = 2
 
 // Cell_4Directions - 東、北、西、南を指す配列のインデックスに対応
 type Cell_4Directions int
@@ -27,22 +27,22 @@ const (
 // BoardCoordinate - 盤座標
 type BoardCoordinate struct {
 	// 枠付きの盤の水平一辺の交点の要素数
-	memoryWidth int
+	MemoryWidth int
 	// 枠付きの盤の垂直一辺の交点の要素数
-	memoryHeight int
+	MemoryHeight int
 
 	// ４方向（東、北、西、南）への相対番地。2015年講習会サンプル、GoGo とは順序が違います
-	cell4Directions [4]types1.Point
+	Cell4Directions [4]types1.Point
 }
 
 // GetMemoryWidth - 枠付きの盤の水平一辺の交点数
 func (bc *BoardCoordinate) GetMemoryWidth() int {
-	return bc.memoryWidth
+	return bc.MemoryWidth
 }
 
 // GetMemoryWidth - 枠付きの盤の垂直一辺の交点数
 func (bc *BoardCoordinate) GetMemoryHeight() int {
-	return bc.memoryHeight
+	return bc.MemoryHeight
 }
 
 // GetMemoryArea - 枠付き盤の面積
@@ -53,13 +53,13 @@ func (bc *BoardCoordinate) GetMemoryArea() int {
 // GetWidth - 枠無し盤の横幅
 func (bc *BoardCoordinate) GetWidth() int {
 	// 枠の分、２つ減らす
-	return bc.memoryWidth - bothSidesWallThickness
+	return bc.MemoryWidth - BothSidesWallThickness
 }
 
 // GetHeight - 枠無し盤の縦幅
 func (bc *BoardCoordinate) GetHeight() int {
 	// 枠の分、２つ減らす
-	return bc.memoryHeight - bothSidesWallThickness
+	return bc.MemoryHeight - BothSidesWallThickness
 }
 
 // GetBoardArea - 枠無し盤の面積
@@ -69,47 +69,47 @@ func (bc *BoardCoordinate) GetBoardArea() int {
 
 // GetRelativePointOf - ４方向（東、北、西、南）の先の番地
 func (bc *BoardCoordinate) GetRelativePointOf(dir4 Cell_4Directions) types1.Point {
-	return bc.cell4Directions[dir4]
+	return bc.Cell4Directions[dir4]
 }
 
 // GetEastOf - 東
 func (bc *BoardCoordinate) GetEastOf(point types1.Point) types1.Point {
-	return point + bc.cell4Directions[Cell_East]
+	return point + bc.Cell4Directions[Cell_East]
 }
 
 // GetNorthEastOf - 北東
 func (bc *BoardCoordinate) GetNorthEastOf(point types1.Point) types1.Point {
-	return point + bc.cell4Directions[Cell_North] + bc.cell4Directions[Cell_East]
+	return point + bc.Cell4Directions[Cell_North] + bc.Cell4Directions[Cell_East]
 }
 
 // GetNorthOf - 北
 func (bc *BoardCoordinate) GetNorthOf(point types1.Point) types1.Point {
-	return point + bc.cell4Directions[Cell_North]
+	return point + bc.Cell4Directions[Cell_North]
 }
 
 // GetNorthWestOf - 北西
 func (bc *BoardCoordinate) GetNorthWestOf(point types1.Point) types1.Point {
-	return point + bc.cell4Directions[Cell_North] + bc.cell4Directions[Cell_West]
+	return point + bc.Cell4Directions[Cell_North] + bc.Cell4Directions[Cell_West]
 }
 
 // GetWestOf - 西
 func (bc *BoardCoordinate) GetWestOf(point types1.Point) types1.Point {
-	return point + bc.cell4Directions[Cell_West]
+	return point + bc.Cell4Directions[Cell_West]
 }
 
 // GetSouthWestOf - 南西
 func (bc *BoardCoordinate) GetSouthWestOf(point types1.Point) types1.Point {
-	return point + bc.cell4Directions[Cell_South] + bc.cell4Directions[Cell_West]
+	return point + bc.Cell4Directions[Cell_South] + bc.Cell4Directions[Cell_West]
 }
 
 // GetSouthOf - 南
 func (bc *BoardCoordinate) GetSouthOf(point types1.Point) types1.Point {
-	return point + bc.cell4Directions[Cell_South]
+	return point + bc.Cell4Directions[Cell_South]
 }
 
 // GetSouthEastOf - 南東
 func (bc *BoardCoordinate) GetSouthEastOf(point types1.Point) types1.Point {
-	return point + bc.cell4Directions[Cell_South] + bc.cell4Directions[Cell_East]
+	return point + bc.Cell4Directions[Cell_South] + bc.Cell4Directions[Cell_East]
 }
 
 // GetPointFromXy - x,y 形式の座標を、 point （配列のインデックス）へ変換します。
@@ -127,12 +127,17 @@ func (bc *BoardCoordinate) GetSouthEastOf(point types1.Point) types1.Point {
 // point : Point
 // 配列インデックス
 func (bc *BoardCoordinate) GetPointFromXy(x int, y int) types1.Point {
-	return types1.Point(y*bc.memoryWidth + x)
+	return types1.Point(y*bc.MemoryWidth + x)
+}
+
+func GetXyFromPointOnBoard(MemoryWidth int, point types1.Point) (int, int) {
+	var p = int(point)
+	return p % MemoryWidth, p / MemoryWidth
 }
 
 // GetXyFromPoint - `GetPointFromXy` の逆関数
 func (bc *BoardCoordinate) GetXyFromPoint(point types1.Point) (int, int) {
-	return getXyFromPointOnBoard(bc.memoryWidth, point)
+	return GetXyFromPointOnBoard(bc.MemoryWidth, point)
 }
 
 // GetXFromFile - `A` ～ `Z` を 0 ～ 24 へ変換します。 国際囲碁連盟のルールに倣い、筋の符号に `I` は使いません
@@ -209,12 +214,12 @@ func GetRankFromCode(code string) string {
 
 // ForeachLikeText - 枠を含めた各セルの石
 func (bc *BoardCoordinate) ForeachLikeText(setPoint func(types1.Point), doNewline func()) {
-	for y := 0; y < bc.memoryHeight; y++ {
+	for y := 0; y < bc.MemoryHeight; y++ {
 		if y != 0 {
 			doNewline()
 		}
 
-		for x := 0; x < bc.memoryWidth; x++ {
+		for x := 0; x < bc.MemoryWidth; x++ {
 			var i = bc.GetPointFromXy(x, y)
 			setPoint(i)
 		}
@@ -231,7 +236,7 @@ func (bc *BoardCoordinate) GetPointFromGtpMove(gtp_move string) types1.Point {
 }
 
 func getFileRankFromPointOnBoard(memoryWidth int, point types1.Point) (string, int) {
-	var x, y = getXyFromPointOnBoard(memoryWidth, point)
+	var x, y = GetXyFromPointOnBoard(memoryWidth, point)
 	var file = GetFileFromX(x - oneSideWallThickness)
 	var rank = getRankFromY(y) - oneSideWallThickness
 	return file, rank
@@ -244,22 +249,22 @@ func getCodeFromPointOnBoard(memoryWidth int, point types1.Point) string {
 }
 
 // 例えば "01A" のように、符号を行、列の順とし、かつ、行番号を一律２桁のゼロ埋めにします
-func getRenIdFromPointOnBoard(memoryWidth int, point types1.Point) string {
+func GetRenIdFromPointOnBoard(memoryWidth int, point types1.Point) string {
 	var file, rank = getFileRankFromPointOnBoard(memoryWidth, point)
 	return fmt.Sprintf("%02d%s", rank, file)
 }
 
 // GetGtpMoveFromPoint - `GetPointFromGtpMove` の逆関数
 func (bc *BoardCoordinate) GetGtpMoveFromPoint(point types1.Point) string {
-	return getCodeFromPointOnBoard(bc.memoryWidth, point)
+	return getCodeFromPointOnBoard(bc.MemoryWidth, point)
 }
 
 // ForeachCellWithoutWall - 枠や改行を含めない各セルの番地
 func (bc *BoardCoordinate) ForeachCellWithoutWall(setPoint func(types1.Point)) {
 	// - x,y は枠無しの盤での0から始まる座標
 	// - point は枠無しの盤を配列にしたもので0から始まる配列の添え字
-	var heightNth = bc.memoryHeight - 1
-	var widthNth = bc.memoryWidth - 1
+	var heightNth = bc.MemoryHeight - 1
+	var widthNth = bc.MemoryWidth - 1
 	for y := 1; y < heightNth; y++ {
 		for x := 1; x < widthNth; x++ {
 			var point = bc.GetPointFromXy(x, y)
@@ -270,8 +275,8 @@ func (bc *BoardCoordinate) ForeachCellWithoutWall(setPoint func(types1.Point)) {
 
 // ForeachPayloadLocationOrderByYx - 枠や改行を含めない各セルの番地。筋、段の順
 func (bc *BoardCoordinate) ForeachPayloadLocationOrderByYx(setLocation func(types1.Point)) {
-	var height = bc.memoryHeight - 1
-	var width = bc.memoryWidth - 1
+	var height = bc.MemoryHeight - 1
+	var width = bc.MemoryWidth - 1
 	for x := 1; x < width; x++ {
 		for y := 1; y < height; y++ {
 			var i = bc.GetPointFromXy(x, y)

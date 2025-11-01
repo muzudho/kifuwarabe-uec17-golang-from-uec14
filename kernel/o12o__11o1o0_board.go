@@ -10,7 +10,7 @@ type Board struct {
 	// ゲームルール
 	gameRule GameRule
 	// 盤座標
-	coordinate BoardCoordinate
+	coordinate types2.BoardCoordinate
 
 	// 交点
 	//
@@ -29,11 +29,17 @@ func NewBoard(gameRule GameRule, boardWidht int, boardHeight int) *Board {
 	var memoryBoardWidth = boardWidht + 2
 	var memoryBoardHeight = boardHeight + 2
 
-	b.coordinate = BoardCoordinate{
-		memoryBoardWidth,
-		memoryBoardHeight,
+	b.coordinate = types2.BoardCoordinate{
+		MemoryWidth:  memoryBoardWidth,
+		MemoryHeight: memoryBoardHeight,
 		// ４方向（東、北、西、南）の番地への相対インデックス
-		[4]types1.Point{1, types1.Point(-memoryBoardWidth), -1, types1.Point(memoryBoardWidth)}}
+		Cell4Directions: [4]types1.Point{
+			1,
+			types1.Point(-memoryBoardWidth),
+			-1,
+			types1.Point(memoryBoardWidth),
+		},
+	}
 
 	// 盤のサイズ指定と、盤面の初期化
 	b.resize(boardWidht, boardHeight)
@@ -52,7 +58,7 @@ func (b *Board) SetGameRule(gameRule *GameRule) {
 }
 
 // GetCoordinate - 盤座標取得
-func (b *Board) GetCoordinate() *BoardCoordinate {
+func (b *Board) GetCoordinate() *types2.BoardCoordinate {
 	return &b.coordinate
 }
 
@@ -76,17 +82,12 @@ func (b *Board) IsSpaceAt(point types1.Point) bool {
 	return b.GetStoneAt(point) == types2.Stone_Space
 }
 
-func getXyFromPointOnBoard(memoryWidth int, point types1.Point) (int, int) {
-	var p = int(point)
-	return p % memoryWidth, p / memoryWidth
-}
-
 // サイズ変更
 func (b *Board) resize(width int, height int) {
-	b.coordinate.memoryWidth = width + bothSidesWallThickness
-	b.coordinate.memoryHeight = height + bothSidesWallThickness
+	b.coordinate.MemoryWidth = width + types2.BothSidesWallThickness
+	b.coordinate.MemoryHeight = height + types2.BothSidesWallThickness
 	b.cells = make([]types2.Stone, b.coordinate.GetMemoryArea())
 
 	// ４方向（東、北、西、南）の番地への相対インデックス
-	b.coordinate.cell4Directions = [4]types1.Point{1, types1.Point(-b.coordinate.GetMemoryWidth()), -1, types1.Point(b.coordinate.GetMemoryWidth())}
+	b.coordinate.Cell4Directions = [4]types1.Point{1, types1.Point(-b.coordinate.GetMemoryWidth()), -1, types1.Point(b.coordinate.GetMemoryWidth())}
 }

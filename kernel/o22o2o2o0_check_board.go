@@ -1,6 +1,9 @@
 package kernel
 
-import types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
+import (
+	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
+	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
+)
 
 // Mark - 目印
 type Mark uint8
@@ -14,7 +17,7 @@ const (
 // CheckBoard - チェック盤
 type CheckBoard struct {
 	// 盤座標
-	coordinate BoardCoordinate
+	coordinate types2.BoardCoordinate
 
 	// 長さが可変な盤
 	//
@@ -28,15 +31,15 @@ type CheckBoard struct {
 func NewDirtyCheckBoard() *CheckBoard {
 	var cb = new(CheckBoard)
 
-	cb.coordinate = BoardCoordinate{}
+	cb.coordinate = types2.BoardCoordinate{}
 
 	return cb
 }
 
 // Init - 初期化
-func (cb *CheckBoard) Init(newBoardCoordinate BoardCoordinate) {
+func (cb *CheckBoard) Init(newBoardCoordinate types2.BoardCoordinate) {
 	// 盤面のサイズが異なるなら、盤面を作り直す
-	if cb.coordinate.memoryWidth != newBoardCoordinate.memoryWidth || cb.coordinate.memoryHeight != newBoardCoordinate.memoryHeight {
+	if cb.coordinate.MemoryWidth != newBoardCoordinate.MemoryWidth || cb.coordinate.MemoryHeight != newBoardCoordinate.MemoryHeight {
 		cb.coordinate = newBoardCoordinate
 		cb.cells = make([]Mark, cb.coordinate.GetMemoryArea())
 		return

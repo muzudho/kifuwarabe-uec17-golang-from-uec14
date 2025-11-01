@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
+	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 	types3 "github.com/muzudho/kifuwarabe-uec17/kernel/types3"
 )
 
@@ -20,7 +21,7 @@ type RenId string
 // GetRenId - 連のIdを取得
 func GetRenId(boardMemoryWidth int, positionNthFigure int, positionNumber PositionNumberInt, minimumLocation types1.Point) RenId {
 	var posNth = positionNumber + geta
-	var coord = getRenIdFromPointOnBoard(boardMemoryWidth, minimumLocation)
+	var coord = types2.GetRenIdFromPointOnBoard(boardMemoryWidth, minimumLocation)
 
 	return RenId(fmt.Sprintf("%0*d,%s", positionNthFigure, posNth, coord))
 }
@@ -140,12 +141,12 @@ func (h *RenDbDocHeader) GetBoardMemoryArea() int {
 
 // GetBoardMemoryWidth - 枠付き盤の横幅
 func (h *RenDbDocHeader) GetBoardMemoryWidth() int {
-	return h.BoardWidth + bothSidesWallThickness
+	return h.BoardWidth + types2.BothSidesWallThickness
 }
 
 // GetBoardMemoryHeight - 枠付き盤の縦幅
 func (h *RenDbDocHeader) GetBoardMemoryHeight() int {
-	return h.BoardHeight + bothSidesWallThickness
+	return h.BoardHeight + types2.BothSidesWallThickness
 }
 
 // EOF [O12o__11o__10o2o0]

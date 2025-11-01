@@ -281,7 +281,7 @@ func (k *Kernel) Execute(command string, logg *Logger) bool {
 
 	case "test_file": // [O12o__10o2o0]
 		// Example: "test_file A"
-		var file = GetFileFromCode(tokens[1])
+		var file = types2.GetFileFromCode(tokens[1])
 		logg.C.Infof("= %s\n", file)
 		logg.J.Infow("output", "file", file)
 		return true
@@ -331,7 +331,7 @@ func (k *Kernel) Execute(command string, logg *Logger) bool {
 
 	case "test_rank": // [O12o__10o2o0]
 		// Example: "test_rank 13"
-		var rank = GetRankFromCode(tokens[1])
+		var rank = types2.GetRankFromCode(tokens[1])
 		logg.C.Infof("= %s\n", rank)
 		logg.J.Infow("output", "rank", rank)
 		return true
@@ -344,7 +344,7 @@ func (k *Kernel) Execute(command string, logg *Logger) bool {
 			logg.J.Infow("error", "x", tokens[1])
 			return true
 		}
-		var file = GetFileFromX(x)
+		var file = types2.GetFileFromX(x)
 		logg.C.Infof("= %s\n", file)
 		logg.J.Infow("output", "file", file)
 		return true
@@ -357,7 +357,7 @@ func (k *Kernel) Execute(command string, logg *Logger) bool {
 			logg.J.Infow("error", "y", tokens[1])
 			return true
 		}
-		var rank = GetRankFromY(y)
+		var rank = types2.GetRankFromY(y)
 		logg.C.Infof("= %s\n", rank)
 		logg.J.Infow("output", "rank", rank)
 		return true
