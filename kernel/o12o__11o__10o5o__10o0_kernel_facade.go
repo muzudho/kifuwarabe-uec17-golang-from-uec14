@@ -18,6 +18,7 @@ import (
 	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
 
 	// Level 4
+	liberty_search_algorithm "github.com/muzudho/kifuwarabe-uec17/kernel/types/level4/liberty_search_algorithm"
 	ren_db "github.com/muzudho/kifuwarabe-uec17/kernel/types/level4/ren_db"
 )
 
@@ -118,8 +119,8 @@ func (k *Kernel) FindAllRens() {
 
 	var setLocation = func(location point.Point) {
 
-		var libertySearchAlgorithm = NewLibertySearchAlgorithm(k.Position.Board, k.Position.CheckBoard)
-		var ren, isFound = libertySearchAlgorithm.findRen(location)
+		var libertySearchAlgorithm = liberty_search_algorithm.NewLibertySearchAlgorithm(k.Position.Board, k.Position.CheckBoard)
+		var ren, isFound = libertySearchAlgorithm.FindRen(location)
 
 		if isFound {
 			k.renDb.RegisterRen(maxPosNthFigure, k.Record.MovesNum1, ren)

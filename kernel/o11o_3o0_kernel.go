@@ -23,13 +23,14 @@ import (
 	record "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/record"
 
 	// Level 4
+	position "github.com/muzudho/kifuwarabe-uec17/kernel/types/level4/position"
 	ren_db "github.com/muzudho/kifuwarabe-uec17/kernel/types/level4/ren_db"
 )
 
 // Kernel - カーネル
 type Kernel struct {
 	// Position - 局面
-	Position *Position
+	Position *position.Position
 
 	// Record - [O12o__11o_3o0] 棋譜
 	Record record.Record
@@ -43,7 +44,7 @@ type Kernel struct {
 func NewDirtyKernel(gameRuleSettings game_rule_settings.GameRuleSettings, boardWidht int, boardHeight int, maxMovesNum moves_num.MovesNum, playFirst stone.Stone) *Kernel {
 
 	var k = new(Kernel)
-	k.Position = NewDirtyPosition(gameRuleSettings, boardWidht, boardHeight)
+	k.Position = position.NewDirtyPosition(gameRuleSettings, boardWidht, boardHeight)
 
 	// [O12o__11o_2o0] 棋譜の初期化
 	k.Record = *record.NewRecord(maxMovesNum, k.Position.Board.Coordinate.GetMemoryArea(), playFirst)
