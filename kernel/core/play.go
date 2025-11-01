@@ -13,7 +13,7 @@ import (
 
 	// Level 2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_2/board_coordinate"
-	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
+	stone "github.com/muzudho/kifuwarabe-uec17/kernel/level_3_physical/sublevel_1/stone"
 
 	// Level 3
 	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"

@@ -12,7 +12,7 @@ import (
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/point"
 
 	// Level 2
-	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
+	stone "github.com/muzudho/kifuwarabe-uec17/kernel/level_3_physical/sublevel_1/stone"
 )
 
 // DoSetBoard - 盤面を設定する

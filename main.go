@@ -19,8 +19,8 @@ import (
 	komi_float "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/komi_float"
 
 	// Level 2
+	stone "github.com/muzudho/kifuwarabe-uec17/kernel/level_3_physical/sublevel_1/stone"
 	game_rule_settings "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/game_rule_settings"
-	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
 )
 
 // [O11o_1o0] グローバル変数として、バーチャルIOを１つ新規作成

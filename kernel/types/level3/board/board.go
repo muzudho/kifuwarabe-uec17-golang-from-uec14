@@ -7,8 +7,8 @@ import (
 
 	// Level 2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_2/board_coordinate"
+	stone "github.com/muzudho/kifuwarabe-uec17/kernel/level_3_physical/sublevel_1/stone"
 	game_rule_settings "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/game_rule_settings"
-	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
 )
 
 // Board - 盤

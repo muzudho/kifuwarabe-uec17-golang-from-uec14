@@ -10,8 +10,8 @@ import (
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/level_2_conceptual/sublevel_1/point"
 
 	// Level 2
+	stone "github.com/muzudho/kifuwarabe-uec17/kernel/level_3_physical/sublevel_1/stone"
 	record_item "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/record_item"
-	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
 )
 
 // Record - 棋譜
