@@ -1,4 +1,4 @@
-package kernel
+package ren_db
 
 import (
 	"encoding/json"
@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	// Level 1
+	geta "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/geta"
 	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 	ren_id "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/ren_id"
@@ -19,14 +20,6 @@ import (
 	ren_db_doc_header "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren_db_doc_header"
 )
 
-// GetRenId - 連のIdを取得
-func GetRenId(boardMemoryWidth int, positionNthFigure int, movesNum1 moves_num.MovesNum, minimumLocation point.Point) ren_id.RenId {
-	var posNth = movesNum1 + geta
-	var coord = board_coordinate.GetRenIdFromPointOnBoard(boardMemoryWidth, minimumLocation)
-
-	return ren_id.RenId(fmt.Sprintf("%0*d,%s", positionNthFigure, posNth, coord))
-}
-
 // RenDb - 連データベース
 type RenDb struct {
 	// Header - ヘッダー
@@ -34,14 +27,6 @@ type RenDb struct {
 
 	// 要素
 	Rens map[ren_id.RenId]*rentype.Ren `json:"rens"`
-}
-
-// NewRenDb - 連データベースを新規作成
-func NewRenDb(boardWidth int, boardHeight int) *RenDb {
-	var db = new(RenDb)
-	db.Header.Init(boardWidth, boardHeight)
-	db.Rens = make(map[ren_id.RenId]*rentype.Ren)
-	return db
 }
 
 // Init - 初期化
@@ -119,4 +104,20 @@ func (db *RenDb) RefreshToExternalFile(convertLocation func(point.Point) string)
 	for _, ren1 := range db.Rens {
 		ren1.RefreshToExternalFile(convertLocation)
 	}
+}
+
+// GetRenId - 連のIdを取得
+func GetRenId(boardMemoryWidth int, positionNthFigure int, movesNum1 moves_num.MovesNum, minimumLocation point.Point) ren_id.RenId {
+	var posNth = movesNum1 + geta.Geta
+	var coord = board_coordinate.GetRenIdFromPointOnBoard(boardMemoryWidth, minimumLocation)
+
+	return ren_id.RenId(fmt.Sprintf("%0*d,%s", positionNthFigure, posNth, coord))
+}
+
+// NewRenDb - 連データベースを新規作成
+func NewRenDb(boardWidth int, boardHeight int) *RenDb {
+	var db = new(RenDb)
+	db.Header.Init(boardWidth, boardHeight)
+	db.Rens = make(map[ren_id.RenId]*rentype.Ren)
+	return db
 }

@@ -16,6 +16,9 @@ import (
 
 	// Level 3
 	rentype "github.com/muzudho/kifuwarabe-uec17/kernel/types/level3/ren"
+
+	// Level 4
+	ren_db "github.com/muzudho/kifuwarabe-uec17/kernel/types/level4/ren_db"
 )
 
 // LoadRenDb - [O12o__11o__10o5o__10o_10o0] 連データベースの外部ファイル読取
@@ -26,7 +29,7 @@ func (k *Kernel) LoadRenDb(path string, onError func(error) bool) bool {
 		return onError(errA)
 	}
 
-	var db = new(RenDb)
+	var db = new(ren_db.RenDb)
 	var errB = json.Unmarshal(binary, db)
 	if errB != nil {
 		return onError(errB)

@@ -9,18 +9,19 @@ import (
 	"strings"
 
 	// Level 1
+	geta "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/geta"
 	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 
 	// Level 2
+	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/board_coordinate"
 	game_rule_settings "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/game_rule_settings"
 	record_item "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/record_item"
 	stone "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/stone"
 
-	board_coordinate "github.com/muzudho/kifuwarabe-uec17/kernel/types/level2/board_coordinate"
+	// Level 4
+	ren_db "github.com/muzudho/kifuwarabe-uec17/kernel/types/level4/ren_db"
 )
-
-const geta = 1 // Japanese wooden clogs. Used to convert bases and ordinals.
 
 // Kernel - カーネル
 type Kernel struct {
@@ -31,7 +32,7 @@ type Kernel struct {
 	Record Record
 
 	// RenDb - [O12o__11o__10o3o0] 連データベース
-	renDb *RenDb
+	renDb *ren_db.RenDb
 }
 
 // NewDirtyKernel - カーネルの新規作成
@@ -45,7 +46,7 @@ func NewDirtyKernel(gameRuleSettings game_rule_settings.GameRuleSettings, boardW
 	k.Record = *NewRecord(maxMovesNum, k.Position.Board.coordinate.GetMemoryArea(), playFirst)
 
 	// RenDb - [O12o__11o__10o3o0] 連データベース
-	k.renDb = NewRenDb(k.Position.Board.coordinate.GetWidth(), k.Position.Board.coordinate.GetHeight())
+	k.renDb = ren_db.NewRenDb(k.Position.Board.coordinate.GetWidth(), k.Position.Board.coordinate.GetHeight())
 
 	return k
 }
@@ -190,7 +191,7 @@ func (k *Kernel) Execute(command string, logg *Logger) bool {
 		var sb strings.Builder
 
 		var setPoint = func(movesNum1 moves_num.MovesNum, item *record_item.RecordItem) {
-			var positionNth = movesNum1 + geta // 基数を序数に変換
+			var positionNth = movesNum1 + geta.Geta // 基数を序数に変換
 			var coord = k.Position.Board.coordinate.GetGtpMoveFromPoint(item.PlacePlay)
 			// sb.WriteString(fmt.Sprintf("[%d]%s ", positionNth, coord))
 

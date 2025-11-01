@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	// Level 1
+	"github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/geta"
 	moves_num "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17/kernel/types/level1/point"
 
@@ -57,7 +58,7 @@ func (r *Record) GetMaxPosNthFigure() int {
 
 // GetMaxPosNth - 手数（序数）の最大値
 func (r *Record) GetMaxPosNth() int {
-	return len(r.items) + geta
+	return len(r.items) + geta.Geta
 }
 
 // GetMovesNum - 何手目。基数
