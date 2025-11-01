@@ -1,11 +1,9 @@
-// BOF [O11o0]
-
-package kernel
+package types2
 
 import (
 	"fmt"
 
-	types "github.com/muzudho/kifuwarabe-uec17/kernel/types"
+	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
 )
 
 // Stone - 石の色
@@ -97,19 +95,17 @@ func (s Stone) String() string {
 }
 
 // GetColor - 色の取得
-func (s Stone) GetColor() types.Color {
+func (s Stone) GetColor() types1.Color {
 	switch s {
 	case Stone_Space:
-		return types.Color_None
+		return types1.Color_None
 	case Stone_Black:
-		return types.Color_Black
+		return types1.Color_Black
 	case Stone_White:
-		return types.Color_White
+		return types1.Color_White
 	case Stone_Wall:
-		return types.Color_None
+		return types1.Color_None
 	default:
 		panic(fmt.Sprintf("%d", int(s)))
 	}
 }
-
-// EOF [O11o0]

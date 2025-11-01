@@ -7,6 +7,8 @@ import (
 	"math"
 	"strconv"
 	"strings"
+
+	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
 
 const geta = 1 // Japanese wooden clogs. Used to convert bases and ordinals.
@@ -27,7 +29,7 @@ type Kernel struct {
 // - 一部のメンバーは、初期化されていないので、別途初期化処理が要る
 func NewDirtyKernel(gameRule GameRule, boardWidht int, boardHeight int,
 	// [O12o__11o_2o0] 棋譜の初期化
-	maxPositionNumber PositionNumberInt, playFirst Stone) *Kernel {
+	maxPositionNumber PositionNumberInt, playFirst types2.Stone) *Kernel {
 
 	var k = new(Kernel)
 	k.Position = NewDirtyPosition(gameRule, boardWidht, boardHeight)

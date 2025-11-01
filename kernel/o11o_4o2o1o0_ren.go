@@ -7,7 +7,8 @@ import (
 	"math"
 	"strings"
 
-	types "github.com/muzudho/kifuwarabe-uec17/kernel/types"
+	types1 "github.com/muzudho/kifuwarabe-uec17/kernel/types1"
+	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
 
 // Ren - 連，れん
@@ -19,10 +20,10 @@ type Ren struct {
 	// LibLoc - （外部ファイル向け）呼吸点の盤上の座標符号の空白区切りのリスト
 	LibLoc string `json:"liberty"`
 
-	// 石
-	stone Stone
 	// 隣接する石の色
-	adjacentColor types.Color
+	adjacentColor types1.Color
+	// 石
+	stone types2.Stone
 	// 要素の石の位置
 	locations []Point
 	// 呼吸点の位置
@@ -36,10 +37,10 @@ type Ren struct {
 // Parameters
 // ----------
 // color - 色
-func NewRen(stone Stone) *Ren {
+func NewRen(stone types2.Stone) *Ren {
 	var r = new(Ren)
 	r.stone = stone
-	r.adjacentColor = types.Color_None
+	r.adjacentColor = types1.Color_None
 	r.minimumLocation = math.MaxInt
 	return r
 }
@@ -55,12 +56,12 @@ func (r *Ren) GetLibertyArea() int {
 }
 
 // GetStone - 石
-func (r *Ren) GetStone() Stone {
+func (r *Ren) GetStone() types2.Stone {
 	return r.stone
 }
 
 // GetAdjacentColor - 隣接する石の色
-func (r *Ren) GetAdjacentColor() types.Color {
+func (r *Ren) GetAdjacentColor() types1.Color {
 	return r.adjacentColor
 }
 

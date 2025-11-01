@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
 
 // LoadRenDb - [O12o__11o__10o5o__10o_10o0] 連データベースの外部ファイル読取
@@ -39,13 +41,13 @@ func (k *Kernel) LoadRenDb(path string, onError func(error) bool) bool {
 // RefreshRenToInternal - TODO 外部ファイルから入力された内容を内部状態に適用します
 func (k *Kernel) RefreshRenToInternal(r *Ren) bool {
 	{
-		var getDefaultStone = func() (bool, Stone) {
+		var getDefaultStone = func() (bool, types2.Stone) {
 			panic(fmt.Sprintf("unexpected stone:%s", r.Sto))
 		}
 
 		// TODO stone from r.Sto
 		// Example: "x" --> black
-		var isOk, stone = GetStoneFromChar(r.Sto, getDefaultStone)
+		var isOk, stone = types2.GetStoneFromChar(r.Sto, getDefaultStone)
 		if !isOk {
 			return false
 		}
@@ -89,7 +91,7 @@ func (k *Kernel) RefreshRenToInternal(r *Ren) bool {
 func (k *Kernel) RemoveRen(ren *Ren) {
 	// 空点をセット
 	var setLocation = func(i int, location Point) {
-		k.Position.Board.SetStoneAt(location, Stone_Space)
+		k.Position.Board.SetStoneAt(location, types2.Stone_Space)
 	}
 
 	// 場所毎に

@@ -5,6 +5,8 @@ package kernel
 import (
 	"math"
 	"strings"
+
+	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
 
 // DoPlay - 打つ
@@ -16,13 +18,13 @@ func (k *Kernel) DoPlay(command string, logg *Logger) {
 	var tokens = strings.Split(command, " ")
 	var stoneName = tokens[1]
 
-	var getDefaultStone = func() (bool, Stone) {
+	var getDefaultStone = func() (bool, types2.Stone) {
 		logg.C.Infof("? unexpected stone:%s\n", stoneName)
 		logg.J.Infow("error", "stone", stoneName)
-		return false, Stone_Space
+		return false, types2.Stone_Space
 	}
 
-	var isOk1, stone = GetStoneFromName(stoneName, getDefaultStone)
+	var isOk1, stone = types2.GetStoneFromName(stoneName, getDefaultStone)
 	if !isOk1 {
 		return
 	}
@@ -88,7 +90,7 @@ func (k *Kernel) DoPlay(command string, logg *Logger) {
 // =======
 // isOk : bool
 // - 石を置けたら真、置けなかったら偽
-func (k *Kernel) Play(stoneA Stone, placePlay Point, logg *Logger,
+func (k *Kernel) Play(stoneA types2.Stone, placePlay Point, logg *Logger,
 	// [O22o1o2o0] onMasonry
 	onMasonry func() bool,
 	// [O22o3o1o0] onOpponentEye
@@ -124,7 +126,7 @@ func (k *Kernel) Play(stoneA Stone, placePlay Point, logg *Logger,
 			k.Position.Board.SetStoneAt(placePlay, stoneA) // いったん、石を置く
 			isExists4rensToRemove, o4rensToRemove = k.GetRenToCapture(placePlay)
 			isChecked4rensToRemove = true
-			k.Position.Board.SetStoneAt(placePlay, Stone_Space) // 石を取り除く
+			k.Position.Board.SetStoneAt(placePlay, types2.Stone_Space) // 石を取り除く
 
 			if !isExists4rensToRemove {
 				// `Captured` ルールと被らなければ

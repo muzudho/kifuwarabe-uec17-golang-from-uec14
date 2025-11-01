@@ -5,6 +5,8 @@ package kernel
 import (
 	"os"
 	"strings"
+
+	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
 
 // DoSetBoard - 盤面を設定する
@@ -26,15 +28,15 @@ func (k *Kernel) DoSetBoard(command string, logg *Logger) {
 			return
 		}
 
-		var getDefaultStone = func() (bool, Stone) {
-			return false, Stone_Space
+		var getDefaultStone = func() (bool, types2.Stone) {
+			return false, types2.Stone_Space
 		}
 
 		var size = k.Position.Board.coordinate.GetMemoryArea()
 		var i Point = 0
 		for _, c := range string(fileData) {
 			var str = string([]rune{c})
-			var isOk, stone = GetStoneFromChar(str, getDefaultStone)
+			var isOk, stone = types2.GetStoneFromChar(str, getDefaultStone)
 
 			if isOk {
 				if size <= int(i) {
@@ -61,5 +63,3 @@ func (k *Kernel) DoSetBoard(command string, logg *Logger) {
 		k.FindAllRens()
 	}
 }
-
-// EOF [O15o__14o1o0]

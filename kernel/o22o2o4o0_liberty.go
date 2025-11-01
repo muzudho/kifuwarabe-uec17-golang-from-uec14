@@ -1,6 +1,6 @@
-// BOF [O22o2o4o0]
-
 package kernel
+
+import types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 
 // GetLiberty - 呼吸点の数え上げ。連の数え上げ。
 // `GetOneRen` とでもいう名前の方がふさわしいが、慣習に合わせた関数名にした
@@ -57,7 +57,7 @@ func (ls *LibertySearchAlgorithm) findRen(arbitraryPoint Point) (*Ren, bool) {
 	// 連の初期化
 	ls.foundRen = NewRen(ls.board.GetStoneAt(arbitraryPoint))
 
-	if ls.foundRen.stone == Stone_Space {
+	if ls.foundRen.stone == types2.Stone_Space {
 		ls.searchSpaceRen(arbitraryPoint)
 	} else {
 		ls.searchStoneRenRecursive(arbitraryPoint)
@@ -88,7 +88,7 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here Point) {
 		var stone = ls.board.GetStoneAt(p) // 石の色
 		switch stone {
 
-		case Stone_Space: // 空点
+		case types2.Stone_Space: // 空点
 			if !ls.checkBoard.Contains(p, Mark_BitLiberty) { // まだチェックしていない呼吸点なら
 				ls.checkBoard.Overwrite(p, Mark_BitLiberty)
 				ls.foundRen.libertyLocations = append(ls.foundRen.libertyLocations, p) // 呼吸点を追加
@@ -96,7 +96,7 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here Point) {
 
 			return // あとの処理をスキップ
 
-		case Stone_Wall: // 枠
+		case types2.Stone_Wall: // 枠
 			return // あとの処理をスキップ
 		}
 
@@ -131,7 +131,7 @@ func (ls *LibertySearchAlgorithm) searchSpaceRen(here Point) {
 		}
 
 		var stone = ls.board.GetStoneAt(p)
-		if stone != Stone_Space { // 空点でなければスキップ
+		if stone != types2.Stone_Space { // 空点でなければスキップ
 			return
 		}
 
@@ -144,5 +144,3 @@ func (ls *LibertySearchAlgorithm) searchSpaceRen(here Point) {
 	// 隣接する４方向
 	ls.board.ForeachNeumannNeighborhood(here, eachAdjacent)
 }
-
-// EOF [O22o2o4o0]

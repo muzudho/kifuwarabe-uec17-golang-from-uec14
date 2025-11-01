@@ -5,12 +5,14 @@ package kernel
 import (
 	"math"
 	"strconv"
+
+	types2 "github.com/muzudho/kifuwarabe-uec17/kernel/types2"
 )
 
 // Record - 棋譜
 type Record struct {
 	// 先行
-	playFirst Stone
+	playFirst types2.Stone
 
 	// 何手目。基数
 	positionNumber PositionNumberInt
@@ -23,7 +25,7 @@ type Record struct {
 //
 // * maxPositionNumber - 手数上限。配列サイズ決定のための判断材料
 // * memoryBoardArea - メモリー盤サイズ。配列サイズ決定のための判断材料
-func NewRecord(maxPositionNumber PositionNumberInt, memoryBoardArea int, playFirst Stone) *Record {
+func NewRecord(maxPositionNumber PositionNumberInt, memoryBoardArea int, playFirst types2.Stone) *Record {
 	var r = new(Record)
 	r.playFirst = playFirst
 
