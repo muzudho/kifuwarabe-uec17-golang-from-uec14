@@ -8,8 +8,8 @@ import (
 	"os"
 	"strings"
 
-	dbg "github.com/muzudho/kifuwarabe-uec14/debugger"
-	"github.com/muzudho/kifuwarabe-uec14/kernel"
+	dbg "github.com/muzudho/kifuwarabe-uec17/debugger"
+	"github.com/muzudho/kifuwarabe-uec17/kernel"
 )
 
 // [O11o_1o0] グローバル変数として、バーチャルIOを１つ新規作成

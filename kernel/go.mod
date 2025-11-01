@@ -1,4 +1,4 @@
-module github.com/muzudho/kifuwarabe-uec14/kernel
+module github.com/muzudho/kifuwarabe-uec17/kernel
 
 go 1.19
 

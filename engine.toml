@@ -51,9 +51,9 @@ PlayFirst = "black"
 [Paths]
 
 # PlainTextLog - コンソールのより詳細なログ
-PlainTextLog = "kifuwarabe-uec14.log"
+PlainTextLog = "kifuwarabe-uec17.log"
 
 # JsonLog - コンピューター向けのログ
-JsonLog = "kifuwarabe-uec14-json.log"
+JsonLog = "kifuwarabe-uec17-json.log"
 
 # EOF [O11o__10o_2o0]
