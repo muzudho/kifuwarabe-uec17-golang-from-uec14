@@ -32,20 +32,25 @@ import (
 var virtualIo = dbg.NewVirtualIO()
 
 func main() {
-	// [O11o__10o_5o0] 思考エンジン設定ファイル
+	// ========================================
+	// flag - コマンドラインの解析
+	// ========================================
+
+	// 思考エンジン設定ファイル
 	var (
 		pEngineFilePath = flag.String("f", "engine.toml", "engine config file path")
 		// [O11o__11o6o0] デバッグ用
 		pIsDebug = flag.Bool("d", false, "for debug")
 	)
 	flag.Parse()
-	// プログラム名
-	var name = flag.Arg(0)
+	// コマンドラインの第１引数で処理を振り分け
+	var arg1 = flag.Arg(0)
 
-	// この下に初期設定を追加していく
-	// ---------------------------
+	// ========================================
+	// 思考エンジンの準備
+	// ========================================
 
-	// [O11o__10o_5o0] 思考エンジン設定ファイル
+	// 思考エンジン設定ファイル
 	var onError = func(err error) *Config {
 		// ログファイルには出力できません。ログファイルはまだ読込んでいません
 
@@ -54,33 +59,37 @@ func main() {
 	}
 	var engineConfig = LoadEngineConfig(*pEngineFilePath, onError)
 
-	// [O11o__10o3o0] ログファイル
+	// ========================================
+	// 思考エンジンの準備　＞　ログ・ファイル
+	// ========================================
+
+	// ログファイル
 	var plainTextLogFile, _ = os.OpenFile(engineConfig.GetPlainTextLog(), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	defer plainTextLogFile.Close() // ログファイル使用済み時にファイルを閉じる
 	// ログファイル
 	var jsonLogFile, _ = os.OpenFile(engineConfig.GetJsonLog(), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	defer jsonLogFile.Close() // ログファイル使用済み時にファイルを閉じる
 	// カスタマイズしたロガーを使うなら
-	var logg = logger.NewSugaredLoggerForGame(plainTextLogFile, jsonLogFile) // customized LOGGer
+	var log1 = logger.NewSugaredLoggerForGame(plainTextLogFile, jsonLogFile)
 
 	// [O11o__11o6o0] デバッグ用
 	if *pIsDebug {
 		virtualIo.ReplaceInputToFileLines("./debug.input.txt")
 	}
 
-	// この上に初期設定を追加していく
-	// ---------------------------
+	// ========================================
+	// コマンドラインの第一引数で処理を振り分ける
+	// ========================================
 
-	switch name { // [O9o0]
+	switch arg1 {
 	case "hello":
+		// コマンドライン例： `go run . hello`
 		fmt.Println("Hello, World!")
 
-		// この下に分岐を挟んでいく
-		// ---------------------
-
-	case "welcome": // [O11o__10o0]
-		logg.C.Infof("Welcome! name:'%s' weight:%.1f x:%d", "nihon taro", 92.6, 3)
-		logg.J.Infow("Welcome!",
+	case "welcome":
+		// ロガーのテスト
+		log1.C.Infof("Welcome! name:'%s' weight:%.1f x:%d", "nihon taro", 92.6, 3)
+		log1.J.Infow("Welcome!",
 			"name", "nihon taro", "weight", 92.6, "x", 3)
 
 		// この上に分岐を挟んでいく
@@ -92,8 +101,8 @@ func main() {
 		// [O12o__11o_4o0] 棋譜の初期化に利用
 		var onUnknownTurn = func() stone.Stone {
 			var errMsg = fmt.Sprintf("? unexpected play_first:%s", engineConfig.GetPlayFirst())
-			logg.C.Info(errMsg)
-			logg.J.Infow("error", "play_first", engineConfig.GetPlayFirst())
+			log1.C.Info(errMsg)
+			log1.J.Infow("error", "play_first", engineConfig.GetPlayFirst())
 			panic(errMsg)
 		}
 
@@ -109,11 +118,11 @@ func main() {
 		// [O11o_1o0] コンソール等からの文字列入力
 		for virtualIo.ScannerScan() {
 			var command = virtualIo.ScannerText()
-			logg.C.Infof("# %s", command)             // 人間向けの出力
-			logg.J.Infow("input", "command", command) // コンピューター向けの出力
+			log1.C.Infof("# %s", command)             // 人間向けの出力
+			log1.J.Infow("input", "command", command) // コンピューター向けの出力
 
 			// [O11o_3o0]
-			var isHandled = kernel1.Execute(command, logg)
+			var isHandled = kernel1.Execute(command, log1)
 			if isHandled {
 				continue
 			}
@@ -133,8 +142,8 @@ func main() {
 			// -------------------------
 
 			default: // [O11o_1o0]
-				logg.C.Infof("? unknown_command command:'%s'\n", tokens[0])
-				logg.J.Infow("? unknown_command", "command", tokens[0])
+				log1.C.Infof("? unknown_command command:'%s'\n", tokens[0])
+				log1.J.Infow("? unknown_command", "command", tokens[0])
 			}
 		}
 	}

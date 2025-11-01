@@ -1,6 +1,6 @@
 // BOF [O23o1o0]
 
-package core
+package level_31_controller
 
 import logger "github.com/muzudho/kifuwarabe-uec17/kernel/level_1_for_maintenance/logger"
 
