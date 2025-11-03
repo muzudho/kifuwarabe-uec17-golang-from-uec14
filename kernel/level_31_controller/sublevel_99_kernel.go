@@ -86,7 +86,10 @@ func (k *Kernel) ReadCommand(command string, text_i_o *text_i_o.TextIO, log1 *lo
 	// 使用可能なコマンドのリスト
 	// Example: `list_commands`
 	case "list_commands":
-		items := []string{"name", "version", "protocol_version", "list_command", "quit", "komi"}
+		// 最初の１個は頭に "= " を付ける必要があってめんどくさいので先に出力
+		text_i_o.GoCommand("= quit\n")
+
+		items := []string{"name", "version", "protocol_version", "list_commands", "komi"}
 		// for rangeでループ。各行出力
 		for _, item := range items {
 			text_i_o.GoCommand(fmt.Sprintf("%s\n", item))
@@ -150,6 +153,9 @@ func (k *Kernel) ReadCommand(command string, text_i_o *text_i_o.TextIO, log1 *lo
 	case "play":
 		k.DoPlay(command, text_i_o, log1)
 		return true
+
+	// TODO "genmove white"
+	// TODO "genmove black"
 
 	// ========================================
 	// 独自実装
