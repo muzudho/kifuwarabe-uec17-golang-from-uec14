@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	// Entities
+	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Level 4.1
 	rentype "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/ren"
@@ -52,13 +52,13 @@ func (kernel1 *Kernel) LoadRenDb(path string, onError func(error) bool) bool {
 // RefreshRenToInternal - TODO 外部ファイルから入力された内容を内部状態に適用します
 func (kernel1 *Kernel) RefreshRenToInternal(r *rentype.Ren) bool {
 	{
-		var getDefaultStone = func() (bool, stone.Stone) {
+		var getDefaultColor = func() (bool, color.Color) {
 			panic(fmt.Sprintf("unexpected stone:%s", r.Sto))
 		}
 
 		// TODO stone from r.Sto
 		// Example: "x" --> black
-		var isOk, stone = stone.GetStoneFromChar(r.Sto, getDefaultStone)
+		var isOk, stone = color.GetColorFromCode(r.Sto, getDefaultColor)
 		if !isOk {
 			return false
 		}
@@ -102,7 +102,7 @@ func (kernel1 *Kernel) RefreshRenToInternal(r *rentype.Ren) bool {
 func (kernel1 *Kernel) RemoveRen(ren *rentype.Ren) {
 	// 空点をセット
 	var setLocation = func(i int, location point.Point) {
-		kernel1.Position.Board.SetStoneAt(location, stone.None)
+		kernel1.Position.Board.SetStoneAt(location, color.None)
 	}
 
 	// 場所毎に

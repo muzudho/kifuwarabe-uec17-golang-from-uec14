@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	// Entities
+	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	moves_num "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Level 2.1
 	geta "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_2_conceptual/sublevel_1/geta"
@@ -19,7 +19,7 @@ import (
 // Record - 棋譜
 type Record struct {
 	// 先行
-	playFirst stone.Stone
+	playFirst color.Color
 
 	// 何手目。基数
 	MovesNum1 moves_num.MovesNum
@@ -32,7 +32,7 @@ type Record struct {
 //
 // * maxPositionNumber - 手数上限。配列サイズ決定のための判断材料
 // * memoryBoardArea - メモリー盤サイズ。配列サイズ決定のための判断材料
-func NewRecord(movesNum1 moves_num.MovesNum, memoryBoardArea int, playFirst stone.Stone) *Record {
+func NewRecord(movesNum1 moves_num.MovesNum, memoryBoardArea int, playFirst color.Color) *Record {
 	var r = new(Record)
 	r.playFirst = playFirst
 

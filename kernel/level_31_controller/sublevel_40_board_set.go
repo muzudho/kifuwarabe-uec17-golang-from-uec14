@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	// Entities
+	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Section 1.1.1
 	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_7_presenter/chapter_1_io/section_1/logger"
@@ -35,15 +35,15 @@ func (kernel1 *Kernel) DoSetBoard(command string, text_io i_text_io.ITextIO, log
 			return
 		}
 
-		var getDefaultStone = func() (bool, stone.Stone) {
-			return false, stone.None
+		var getDefaultColor = func() (bool, color.Color) {
+			return false, color.None
 		}
 
 		var size = kernel1.Position.Board.Coordinate.GetMemoryArea()
 		var i point.Point = 0
 		for _, c := range string(fileData) {
 			var str = string([]rune{c})
-			var isOk, stone = stone.GetStoneFromChar(str, getDefaultStone)
+			var isOk, stone = color.GetColorFromCode(str, getDefaultColor)
 
 			if isOk {
 				if size <= int(i) {

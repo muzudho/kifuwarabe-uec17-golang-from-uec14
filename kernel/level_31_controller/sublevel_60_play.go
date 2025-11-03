@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	// Entities
+	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Section 1.1.1
 	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_7_presenter/chapter_1_io/section_1/logger"
@@ -31,13 +31,13 @@ func (kernel1 *Kernel) DoPlay(command string, text_io i_text_io.ITextIO, log1 *l
 	var tokens = strings.Split(command, " ")
 	var stoneName = tokens[1]
 
-	var getDefaultStone = func() (bool, stone.Stone) {
+	var getDefaultColor = func() (bool, color.Color) {
 		text_io.SendCommand(fmt.Sprintf("? unexpected stone:%s\n", stoneName))
 		log1.J.Infow("error", "stone", stoneName)
-		return false, stone.None
+		return false, color.None
 	}
 
-	var isOk1, stone = stone.GetStoneFromName(stoneName, getDefaultStone)
+	var isOk1, stone = color.GetColorFromCode(stoneName, getDefaultColor)
 	if !isOk1 {
 		return
 	}
@@ -103,7 +103,7 @@ func (kernel1 *Kernel) DoPlay(command string, text_io i_text_io.ITextIO, log1 *l
 // =======
 // isOk : bool
 // - 石を置けたら真、置けなかったら偽
-func (kernel1 *Kernel) Play(stoneA stone.Stone, placePlay point.Point, logg *logger.Logger,
+func (kernel1 *Kernel) Play(color1 color.Color, placePlay point.Point, logg *logger.Logger,
 	// [O22o1o2o0] onMasonry
 	onMasonry func() bool,
 	// [O22o3o1o0] onOpponentEye
@@ -131,22 +131,22 @@ func (kernel1 *Kernel) Play(stoneA stone.Stone, placePlay point.Point, logg *log
 	// [O22o3o1o0] 連と呼吸点の算出
 	var renC, isFound = kernel1.GetLiberty(placePlay)
 	if isFound && renC.GetArea() == 1 { // 石Aを置いた交点を含む連Cについて、連Cの面積が1である（眼）
-		if stoneA.GetColor() == renC.AdjacentColor.GetOpponent() {
+		if color1 == renC.AdjacentColor.GetOpponent() {
 			// かつ、連Cに隣接する連の色が、石Aのちょうど反対側の色であったなら、
 			// 相手の眼に石を置こうとしたとみなす
 
 			// [O22o6o1o0] 打ちあげる死に石の連を取得
-			kernel1.Position.Board.SetStoneAt(placePlay, stoneA) // いったん、石を置く
+			kernel1.Position.Board.SetStoneAt(placePlay, color1) // いったん、石を置く
 			isExists4rensToRemove, o4rensToRemove = kernel1.GetRenToCapture(placePlay)
 			isChecked4rensToRemove = true
-			kernel1.Position.Board.SetStoneAt(placePlay, stone.None) // 石を取り除く
+			kernel1.Position.Board.SetStoneAt(placePlay, color.None) // 石を取り除く
 
 			if !isExists4rensToRemove {
 				// `Captured` ルールと被らなければ
 				return onOpponentEye()
 			}
 
-		} else if kernel1.Position.CanNotPutOnMyEye && stoneA.GetColor() == renC.AdjacentColor {
+		} else if kernel1.Position.CanNotPutOnMyEye && color1 == renC.AdjacentColor {
 			// [O22o4o1o0]
 			// かつ、連Cに隣接する連の色が、石Aの色であったなら、
 			// 自分の眼に石を置こうとしたとみなす
@@ -156,7 +156,7 @@ func (kernel1 *Kernel) Play(stoneA stone.Stone, placePlay point.Point, logg *log
 	}
 
 	// 石を置く
-	kernel1.Position.Board.SetStoneAt(placePlay, stoneA)
+	kernel1.Position.Board.SetStoneAt(placePlay, color1)
 
 	// [O22o6o1o0] 打ちあげる死に石の連を取得
 	if !isChecked4rensToRemove {

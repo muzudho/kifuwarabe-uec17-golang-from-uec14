@@ -2,8 +2,8 @@ package level_31_controller
 
 import (
 	// Entities
+	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	moves_num "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/moves_num"
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Level 4.1
 	game_rule_settings "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/game_rule_settings"
@@ -32,7 +32,7 @@ type Kernel struct {
 
 // NewDirtyKernel - カーネルの新規作成
 // - 一部のメンバーは、初期化されていないので、別途初期化処理が要る
-func NewDirtyKernel(gameRuleSettings game_rule_settings.GameRuleSettings, boardWidht int, boardHeight int, maxMovesNum moves_num.MovesNum, playFirst stone.Stone) *Kernel {
+func NewDirtyKernel(gameRuleSettings game_rule_settings.GameRuleSettings, boardWidht int, boardHeight int, maxMovesNum moves_num.MovesNum, playFirst color.Color) *Kernel {
 
 	var k = new(Kernel)
 	k.Position = position.NewDirtyPosition(gameRuleSettings, boardWidht, boardHeight)

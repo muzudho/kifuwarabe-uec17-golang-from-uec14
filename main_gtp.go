@@ -6,10 +6,10 @@ import (
 	"strconv"
 
 	// Entities
+	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	komi_float "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/komi_float"
 	moves_num "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	//
 	i_text_io "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/interfaces/part_1_facility/chapter_1_io/section_1/i_text_io"
@@ -30,7 +30,7 @@ import (
 
 func LoopGTP(text_io1 i_text_io.ITextIO, log1 *logger.Logger, engineConfig *Config) {
 	// [O12o__11o_4o0] 棋譜の初期化に利用
-	var onUnknownTurn = func() stone.Stone {
+	var onUnknownTurn = func() color.Color {
 		var errMsg = fmt.Sprintf("? unexpected play_first:%s", engineConfig.GetPlayFirst())
 		text_io1.SendCommand(errMsg)
 		log1.J.Infow("error", "play_first", engineConfig.GetPlayFirst())
@@ -42,7 +42,7 @@ func LoopGTP(text_io1 i_text_io.ITextIO, log1 *logger.Logger, engineConfig *Conf
 	var kernel1 = kernel_core.NewDirtyKernel(*gameRuleSettings, engineConfig.GetBoardSize(), engineConfig.GetBoardSize(),
 		// [O12o__11o_4o0] 棋譜の初期化
 		moves_num.MovesNum(engineConfig.GetMaxPositionNumber()),
-		stone.GetStoneOrDefaultFromTurn(engineConfig.GetPlayFirst(), onUnknownTurn))
+		color.GetStoneOrDefaultFromTurn(engineConfig.GetPlayFirst(), onUnknownTurn))
 	// 設定ファイルの内容をカーネルへ反映
 	kernel1.Position.Board.Init(engineConfig.GetBoardSize(), engineConfig.GetBoardSize())
 

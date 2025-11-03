@@ -8,7 +8,6 @@ import (
 	// Entities
 	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 )
 
 // Ren - 連，れん
@@ -23,7 +22,7 @@ type Ren struct {
 	// 隣接する石の色
 	AdjacentColor color.Color
 	// 石
-	Stone stone.Stone
+	Stone color.Color
 	// 要素の石の位置
 	Locations []point.Point
 	// 呼吸点の位置
@@ -37,9 +36,9 @@ type Ren struct {
 // Parameters
 // ----------
 // color - 色
-func NewRen(stone stone.Stone) *Ren {
+func NewRen(color1 color.Color) *Ren {
 	var r = new(Ren)
-	r.Stone = stone
+	r.Stone = color1
 	r.AdjacentColor = color.None
 	r.MinimumLocation = math.MaxInt
 	return r
@@ -56,7 +55,7 @@ func (r *Ren) GetLibertyArea() int {
 }
 
 // GetStone - 石
-func (r *Ren) GetStone() stone.Stone {
+func (r *Ren) GetStone() color.Color {
 	return r.Stone
 }
 

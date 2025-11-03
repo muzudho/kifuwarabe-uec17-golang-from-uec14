@@ -2,8 +2,8 @@ package liberty_search_algorithm
 
 import (
 	// Entities
+	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Level 2.2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_2_conceptual/sublevel_2/board_coordinate"
@@ -54,7 +54,7 @@ func (ls *LibertySearchAlgorithm) FindRen(arbitraryPoint point.Point) (*rentype.
 	// 連の初期化
 	ls.foundRen = rentype.NewRen(ls.board.GetStoneAt(arbitraryPoint))
 
-	if ls.foundRen.Stone == stone.None {
+	if ls.foundRen.Stone == color.None {
 		ls.searchSpaceRen(arbitraryPoint)
 	} else {
 		ls.searchStoneRenRecursive(arbitraryPoint)
@@ -82,10 +82,10 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here point.Point) {
 	// 隣接する交点毎に
 	var eachAdjacent = func(dir board_coordinate.Cell_4Directions, p point.Point) {
 
-		var stone1 = ls.board.GetStoneAt(p) // 石の色
-		switch stone1 {
+		var color1 = ls.board.GetStoneAt(p) // 石の色
+		switch color1 {
 
-		case stone.None: // 空点
+		case color.None: // 空点
 			if !ls.checkBoard.Contains(p, mark.Mark_BitLiberty) { // まだチェックしていない呼吸点なら
 				ls.checkBoard.Overwrite(p, mark.Mark_BitLiberty)
 				ls.foundRen.LibertyLocations = append(ls.foundRen.LibertyLocations, p) // 呼吸点を追加
@@ -93,7 +93,7 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here point.Point) {
 
 			return // あとの処理をスキップ
 
-		case stone.Wall: // 枠
+		case color.Wall: // 枠
 			return // あとの処理をスキップ
 		}
 
@@ -102,11 +102,11 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here point.Point) {
 			return
 		}
 
-		var color = stone1.GetColor()
+		var color = color1
 		// 隣接する色、追加
 		ls.foundRen.AdjacentColor = ls.foundRen.AdjacentColor.GetAdded(color)
 
-		if stone1 == ls.foundRen.Stone { // 同じ石
+		if color1 == ls.foundRen.Stone { // 同じ石
 			ls.searchStoneRenRecursive(p) // 再帰
 		}
 	}
@@ -127,14 +127,13 @@ func (ls *LibertySearchAlgorithm) searchSpaceRen(here point.Point) {
 			return
 		}
 
-		var stone1 = ls.board.GetStoneAt(p)
-		if stone1 != stone.None { // 空点でなければスキップ
+		var color1 = ls.board.GetStoneAt(p)
+		if color1 != color.None { // 空点でなければスキップ
 			return
 		}
 
-		var color = stone1.GetColor()
 		// 隣接する色、追加
-		ls.foundRen.AdjacentColor = ls.foundRen.AdjacentColor.GetAdded(color)
+		ls.foundRen.AdjacentColor = ls.foundRen.AdjacentColor.GetAdded(color1)
 		ls.searchSpaceRen(p) // 再帰
 	}
 

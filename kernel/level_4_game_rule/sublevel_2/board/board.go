@@ -4,7 +4,6 @@ import (
 	// Entities
 	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Level 2.2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_2_conceptual/sublevel_2/board_coordinate"
@@ -24,7 +23,7 @@ type Board struct {
 	// Cells - 交点
 	//
 	// * 英語で交点は node かも知れないが、表計算でよく使われる cell の方を使う
-	Cells []stone.Stone
+	Cells []color.Color
 }
 
 // NewBoard - 新規作成
@@ -72,30 +71,30 @@ func (b *Board) GetCoordinate() *board_coordinate.BoardCoordinate {
 }
 
 // GetStoneAt - 指定座標の石を取得
-func (b *Board) GetStoneAt(i point.Point) stone.Stone {
+func (b *Board) GetStoneAt(i point.Point) color.Color {
 	return b.Cells[i]
 }
 
 // SetStoneAt - 指定座標の石を設定
-func (b *Board) SetStoneAt(i point.Point, s stone.Stone) {
+func (b *Board) SetStoneAt(i point.Point, s color.Color) {
 	b.Cells[i] = s
 }
 
 // GetColorAt - 指定座標の石の色を取得
 func (b *Board) GetColorAt(i point.Point) color.Color {
-	return b.Cells[i].GetColor()
+	return b.Cells[i]
 }
 
 // IsEmpty - 指定の交点は空点か？
 func (b *Board) IsSpaceAt(point point.Point) bool {
-	return b.GetStoneAt(point) == stone.None
+	return b.GetStoneAt(point) == color.None
 }
 
 // サイズ変更
 func (b *Board) resize(width int, height int) {
 	b.Coordinate.MemoryWidth = width + board_coordinate.BothSidesWallThickness
 	b.Coordinate.MemoryHeight = height + board_coordinate.BothSidesWallThickness
-	b.Cells = make([]stone.Stone, b.Coordinate.GetMemoryArea())
+	b.Cells = make([]color.Color, b.Coordinate.GetMemoryArea())
 
 	// ４方向（東、北、西、南）の番地への相対インデックス
 	b.Coordinate.Cell4Directions = [4]point.Point{1, point.Point(-b.Coordinate.GetMemoryWidth()), -1, point.Point(b.Coordinate.GetMemoryWidth())}
@@ -114,10 +113,10 @@ func (b *Board) Init(width int, height int) {
 		var y2 = b.Coordinate.MemoryHeight - 1
 		for x := 0; x < b.Coordinate.MemoryWidth; x++ {
 			var i = b.Coordinate.GetPointFromXy(x, y)
-			b.Cells[i] = stone.Wall
+			b.Cells[i] = color.Wall
 
 			i = b.Coordinate.GetPointFromXy(x, y2)
-			b.Cells[i] = stone.Wall
+			b.Cells[i] = color.Wall
 		}
 	}
 	// 枠の左辺、右辺を引く
@@ -126,10 +125,10 @@ func (b *Board) Init(width int, height int) {
 		var x2 = b.Coordinate.MemoryWidth - 1
 		for y := 1; y < b.Coordinate.MemoryHeight-1; y++ {
 			var i = b.Coordinate.GetPointFromXy(x, y)
-			b.Cells[i] = stone.Wall
+			b.Cells[i] = color.Wall
 
 			i = b.Coordinate.GetPointFromXy(x2, y)
-			b.Cells[i] = stone.Wall
+			b.Cells[i] = color.Wall
 		}
 	}
 	// 枠の内側を空点で埋める
@@ -139,7 +138,7 @@ func (b *Board) Init(width int, height int) {
 		for y := 1; y < height; y++ {
 			for x := 1; x < width; x++ {
 				var i = b.Coordinate.GetPointFromXy(x, y)
-				b.Cells[i] = stone.None
+				b.Cells[i] = color.None
 			}
 		}
 	}
@@ -157,7 +156,7 @@ func (b *Board) ForeachNeumannNeighborhood(here point.Point, setAdjacent func(bo
 		}
 
 		// 枠チェック
-		if b.GetStoneAt(p) == stone.Wall {
+		if b.GetStoneAt(p) == color.Wall {
 			continue
 		}
 
