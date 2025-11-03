@@ -42,7 +42,7 @@ func LoopGTP(text_io1 i_text_io.ITextIO, log1 *logger.Logger, engineConfig *Conf
 	var kernel1 = kernel_core.NewDirtyKernel(*gameRuleSettings, engineConfig.GetBoardSize(), engineConfig.GetBoardSize(),
 		// [O12o__11o_4o0] 棋譜の初期化
 		moves_num.MovesNum(engineConfig.GetMaxPositionNumber()),
-		color.GetStoneOrDefaultFromTurn(engineConfig.GetPlayFirst(), onUnknownTurn))
+		color.GetColorOrDefaultFromTurn(engineConfig.GetPlayFirst(), onUnknownTurn))
 	// 設定ファイルの内容をカーネルへ反映
 	kernel1.Position.Board.Init(engineConfig.GetBoardSize(), engineConfig.GetBoardSize())
 
@@ -155,7 +155,7 @@ func LoopGTP(text_io1 i_text_io.ITextIO, log1 *logger.Logger, engineConfig *Conf
 		case "genmove":
 			// genmove black
 			// genmove white
-			// var color e.Stone
+			// var color e.Color
 			// if 1 < len(tokens) && strings.ToLower(tokens[1][0:1]) == "w" {
 			// 	color = 2
 			// } else {

@@ -32,14 +32,14 @@ func (c Color) String() string {
 	}
 }
 
-// GetStoneFromChar - １文字与えると、Stone値を返します
+// GetColorFromChar - １文字与えると、Color値を返します
 //
 // Returns
 // -------
 // isOk : bool
-// stone : Stone
-func GetColorFromCode(stoneChar string, getDefaultColor func() (bool, Color)) (bool, Color) {
-	switch stoneChar {
+// color : Color
+func GetColorFromCode(colorChar string, getDefaultColor func() (bool, Color)) (bool, Color) {
+	switch colorChar {
 	case ".":
 		return true, None
 	case "x":
@@ -53,12 +53,12 @@ func GetColorFromCode(stoneChar string, getDefaultColor func() (bool, Color)) (b
 	}
 }
 
-// GetColorFromName - 文字列の名前を与えると、Stone値を返します
+// GetColorFromName - 文字列の名前を与えると、Color値を返します
 //
 // Returns
 // -------
 // isOk : bool
-// stone : Stone
+// color : Color
 func GetColorFromName(colorName string, getDefaultColor func() (bool, Color)) (bool, Color) {
 	switch colorName {
 	case "space":
@@ -74,12 +74,12 @@ func GetColorFromName(colorName string, getDefaultColor func() (bool, Color)) (b
 	}
 }
 
-// GetStoneOrDefaultFromTurn - black または white を与えると、Stone値を返します
+// GetColorOrDefaultFromTurn - black または white を与えると、Color 値を返します
 //
 // Returns
 // -------
-// stone : Stone
-func GetStoneOrDefaultFromTurn(colorName string, getDefaultStone func() Color) Color {
+// color : Color
+func GetColorOrDefaultFromTurn(colorName string, getDefaultColor func() Color) Color {
 	switch colorName {
 	case "space":
 		return None
@@ -90,7 +90,7 @@ func GetStoneOrDefaultFromTurn(colorName string, getDefaultStone func() Color) C
 	case "wall":
 		return Wall
 	default:
-		return getDefaultStone()
+		return getDefaultColor()
 	}
 }
 
