@@ -9,6 +9,7 @@ import (
 
 	// Entities
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
+	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Section 1.1.1
 	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_7_presenter/chapter_1_io/section_1/logger"
@@ -16,9 +17,6 @@ import (
 
 	// Level 2.2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_2_conceptual/sublevel_2/board_coordinate"
-
-	// Level 3.1
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_3_physical/sublevel_1/stone"
 
 	// Level 4.1
 	rentype "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/ren"
@@ -36,7 +34,7 @@ func (kernel1 *Kernel) DoPlay(command string, text_io i_text_io.ITextIO, log1 *l
 	var getDefaultStone = func() (bool, stone.Stone) {
 		text_io.SendCommand(fmt.Sprintf("? unexpected stone:%s\n", stoneName))
 		log1.J.Infow("error", "stone", stoneName)
-		return false, stone.Stone_Space
+		return false, stone.None
 	}
 
 	var isOk1, stone = stone.GetStoneFromName(stoneName, getDefaultStone)
@@ -141,7 +139,7 @@ func (kernel1 *Kernel) Play(stoneA stone.Stone, placePlay point.Point, logg *log
 			kernel1.Position.Board.SetStoneAt(placePlay, stoneA) // いったん、石を置く
 			isExists4rensToRemove, o4rensToRemove = kernel1.GetRenToCapture(placePlay)
 			isChecked4rensToRemove = true
-			kernel1.Position.Board.SetStoneAt(placePlay, stone.Stone_Space) // 石を取り除く
+			kernel1.Position.Board.SetStoneAt(placePlay, stone.None) // 石を取り除く
 
 			if !isExists4rensToRemove {
 				// `Captured` ルールと被らなければ

@@ -5,19 +5,19 @@ import "fmt"
 type Color uint
 
 const (
-	Color_None Color = iota
-	Color_Black
-	Color_White
+	None Color = iota
+	Black
+	White
 )
 
 // String - 文字列化
 func (c Color) String() string {
 	switch c {
-	case Color_None:
+	case None:
 		return ""
-	case Color_Black:
+	case Black:
 		return "x"
-	case Color_White:
+	case White:
 		return "o"
 	default:
 		panic(fmt.Sprintf("unexpected color:%d", int(c)))
@@ -27,27 +27,27 @@ func (c Color) String() string {
 // GetAdded - 色の加算。上書きはできない
 func (c1 Color) GetAdded(c2 Color) Color {
 	switch c1 {
-	case Color_None:
+	case None:
 		return c2
-	case Color_Black:
+	case Black:
 		switch c2 {
-		case Color_None:
-			return Color_Black
-		case Color_Black:
-			return Color_Black
-		case Color_White:
-			return Color_Black
+		case None:
+			return Black
+		case Black:
+			return Black
+		case White:
+			return Black
 		default:
 			panic(fmt.Sprintf("unexpected my_color:%s adds_color:%s", c1, c2))
 		}
-	case Color_White:
+	case White:
 		switch c2 {
-		case Color_None:
-			return Color_White
-		case Color_Black:
-			return Color_White
-		case Color_White:
-			return Color_White
+		case None:
+			return White
+		case Black:
+			return White
+		case White:
+			return White
 		default:
 			panic(fmt.Sprintf("unexpected my_color:%s adds_color:%s", c1, c2))
 		}
@@ -59,12 +59,12 @@ func (c1 Color) GetAdded(c2 Color) Color {
 // GetOpponent - 色の反転
 func (c Color) GetOpponent() Color {
 	switch c {
-	case Color_None:
+	case None:
 		return c
-	case Color_Black:
-		return Color_White
-	case Color_White:
-		return Color_Black
+	case Black:
+		return White
+	case White:
+		return Black
 	default:
 		panic(fmt.Sprintf("unexpected color:%d", int(c)))
 	}

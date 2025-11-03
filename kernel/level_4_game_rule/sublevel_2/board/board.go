@@ -4,12 +4,10 @@ import (
 	// Entities
 	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
+	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Level 2.2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_2_conceptual/sublevel_2/board_coordinate"
-
-	// Level 3.1
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_3_physical/sublevel_1/stone"
 
 	// Level 4.1
 	game_rule_settings "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/game_rule_settings"
@@ -90,7 +88,7 @@ func (b *Board) GetColorAt(i point.Point) color.Color {
 
 // IsEmpty - 指定の交点は空点か？
 func (b *Board) IsSpaceAt(point point.Point) bool {
-	return b.GetStoneAt(point) == stone.Stone_Space
+	return b.GetStoneAt(point) == stone.None
 }
 
 // サイズ変更
@@ -116,10 +114,10 @@ func (b *Board) Init(width int, height int) {
 		var y2 = b.Coordinate.MemoryHeight - 1
 		for x := 0; x < b.Coordinate.MemoryWidth; x++ {
 			var i = b.Coordinate.GetPointFromXy(x, y)
-			b.Cells[i] = stone.Stone_Wall
+			b.Cells[i] = stone.Wall
 
 			i = b.Coordinate.GetPointFromXy(x, y2)
-			b.Cells[i] = stone.Stone_Wall
+			b.Cells[i] = stone.Wall
 		}
 	}
 	// 枠の左辺、右辺を引く
@@ -128,10 +126,10 @@ func (b *Board) Init(width int, height int) {
 		var x2 = b.Coordinate.MemoryWidth - 1
 		for y := 1; y < b.Coordinate.MemoryHeight-1; y++ {
 			var i = b.Coordinate.GetPointFromXy(x, y)
-			b.Cells[i] = stone.Stone_Wall
+			b.Cells[i] = stone.Wall
 
 			i = b.Coordinate.GetPointFromXy(x2, y)
-			b.Cells[i] = stone.Stone_Wall
+			b.Cells[i] = stone.Wall
 		}
 	}
 	// 枠の内側を空点で埋める
@@ -141,7 +139,7 @@ func (b *Board) Init(width int, height int) {
 		for y := 1; y < height; y++ {
 			for x := 1; x < width; x++ {
 				var i = b.Coordinate.GetPointFromXy(x, y)
-				b.Cells[i] = stone.Stone_Space
+				b.Cells[i] = stone.None
 			}
 		}
 	}
@@ -159,7 +157,7 @@ func (b *Board) ForeachNeumannNeighborhood(here point.Point, setAdjacent func(bo
 		}
 
 		// 枠チェック
-		if b.GetStoneAt(p) == stone.Stone_Wall {
+		if b.GetStoneAt(p) == stone.Wall {
 			continue
 		}
 

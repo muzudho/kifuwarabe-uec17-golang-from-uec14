@@ -8,9 +8,7 @@ import (
 	// Entities
 	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-
-	// Level 2
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_3_physical/sublevel_1/stone"
+	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 )
 
 // Ren - 連，れん
@@ -42,7 +40,7 @@ type Ren struct {
 func NewRen(stone stone.Stone) *Ren {
 	var r = new(Ren)
 	r.Stone = stone
-	r.AdjacentColor = color.Color_None
+	r.AdjacentColor = color.None
 	r.MinimumLocation = math.MaxInt
 	return r
 }

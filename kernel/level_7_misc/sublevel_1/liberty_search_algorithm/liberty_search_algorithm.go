@@ -3,12 +3,10 @@ package liberty_search_algorithm
 import (
 	// Entities
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
+	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Level 2.2
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_2_conceptual/sublevel_2/board_coordinate"
-
-	// Level 3.1
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_3_physical/sublevel_1/stone"
 
 	// Level 4.1
 	check_board "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/check_board"
@@ -56,7 +54,7 @@ func (ls *LibertySearchAlgorithm) FindRen(arbitraryPoint point.Point) (*rentype.
 	// 連の初期化
 	ls.foundRen = rentype.NewRen(ls.board.GetStoneAt(arbitraryPoint))
 
-	if ls.foundRen.Stone == stone.Stone_Space {
+	if ls.foundRen.Stone == stone.None {
 		ls.searchSpaceRen(arbitraryPoint)
 	} else {
 		ls.searchStoneRenRecursive(arbitraryPoint)
@@ -87,7 +85,7 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here point.Point) {
 		var stone1 = ls.board.GetStoneAt(p) // 石の色
 		switch stone1 {
 
-		case stone.Stone_Space: // 空点
+		case stone.None: // 空点
 			if !ls.checkBoard.Contains(p, mark.Mark_BitLiberty) { // まだチェックしていない呼吸点なら
 				ls.checkBoard.Overwrite(p, mark.Mark_BitLiberty)
 				ls.foundRen.LibertyLocations = append(ls.foundRen.LibertyLocations, p) // 呼吸点を追加
@@ -95,7 +93,7 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here point.Point) {
 
 			return // あとの処理をスキップ
 
-		case stone.Stone_Wall: // 枠
+		case stone.Wall: // 枠
 			return // あとの処理をスキップ
 		}
 
@@ -130,7 +128,7 @@ func (ls *LibertySearchAlgorithm) searchSpaceRen(here point.Point) {
 		}
 
 		var stone1 = ls.board.GetStoneAt(p)
-		if stone1 != stone.Stone_Space { // 空点でなければスキップ
+		if stone1 != stone.None { // 空点でなければスキップ
 			return
 		}
 

@@ -9,13 +9,11 @@ import (
 
 	// Entities
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
+	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Section 1.1.1
 	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_7_presenter/chapter_1_io/section_1/logger"
 	i_text_io "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/interfaces/part_1_facility/chapter_1_io/section_1/i_text_io"
-
-	// Level 2
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_3_physical/sublevel_1/stone"
 )
 
 // DoSetBoard - 盤面を設定する
@@ -38,7 +36,7 @@ func (kernel1 *Kernel) DoSetBoard(command string, text_io i_text_io.ITextIO, log
 		}
 
 		var getDefaultStone = func() (bool, stone.Stone) {
-			return false, stone.Stone_Space
+			return false, stone.None
 		}
 
 		var size = kernel1.Position.Board.Coordinate.GetMemoryArea()

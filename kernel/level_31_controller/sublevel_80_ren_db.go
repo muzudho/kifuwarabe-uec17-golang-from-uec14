@@ -10,9 +10,7 @@ import (
 
 	// Entities
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-
-	// Level 3.1
-	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_3_physical/sublevel_1/stone"
+	stone "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/stone"
 
 	// Level 4.1
 	rentype "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/ren"
@@ -104,7 +102,7 @@ func (kernel1 *Kernel) RefreshRenToInternal(r *rentype.Ren) bool {
 func (kernel1 *Kernel) RemoveRen(ren *rentype.Ren) {
 	// 空点をセット
 	var setLocation = func(i int, location point.Point) {
-		kernel1.Position.Board.SetStoneAt(location, stone.Stone_Space)
+		kernel1.Position.Board.SetStoneAt(location, stone.None)
 	}
 
 	// 場所毎に
