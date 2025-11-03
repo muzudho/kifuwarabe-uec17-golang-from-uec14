@@ -4,7 +4,7 @@ package text_io
 import (
 	"fmt"
 
-	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementation/part_7_presenter/chapter_1_i_o/section_1/logger"
+	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_7_presenter/chapter_1_i_o/section_1/logger"
 )
 
 // TextIO - テキスト入出力
