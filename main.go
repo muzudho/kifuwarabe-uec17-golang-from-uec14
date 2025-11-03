@@ -11,7 +11,7 @@ import (
 	dbg "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/debugger"
 
 	// Interfaces
-	i_text_i_o "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/interfaces/part_1_facility/chapter_1_i_o/i_text_i_o"
+	i_text_i_o "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/interfaces/part_1_facility/chapter_1_i_o/section_1/i_text_i_o"
 
 	// Part 1
 	text_i_o "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/part_1_facility/chapter_1_i_o/section_2/text_i_o"
