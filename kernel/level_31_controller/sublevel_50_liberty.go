@@ -3,9 +3,7 @@ package level_31_controller
 import (
 	// Entities
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-
-	// Level 4.1
-	rentype "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/ren"
+	ren "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_2/ren"
 
 	// Level 7.1
 	liberty_search_algorithm "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_7_misc/sublevel_1/liberty_search_algorithm"
@@ -22,7 +20,7 @@ import (
 // -------
 // - *Ren is ren or nil
 // - bool is found
-func (kernel1 *Kernel) GetLiberty(arbitraryPoint point.Point) (*rentype.Ren, bool) {
+func (kernel1 *Kernel) GetLiberty(arbitraryPoint point.Point) (*ren.Ren, bool) {
 	// チェックボードの初期化
 	kernel1.Position.CheckBoard.Init(kernel1.Position.Board.Coordinate)
 

@@ -3,14 +3,12 @@ package liberty_search_algorithm
 import (
 	// Entities
 	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
-	"github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/direction_4"
+	direction_4 "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/direction_4"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-
-	// Level 2.2
+	ren "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_2/ren"
 
 	// Level 4.1
 	check_board "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/check_board"
-	rentype "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/ren"
 
 	// Level 4.2
 	board "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_2/board"
@@ -25,8 +23,8 @@ type LibertySearchAlgorithm struct {
 	board *board.Board
 	// チェック盤
 	checkBoard *check_board.CheckBoard
-	// foundRen - 呼吸点の探索時に使います
-	foundRen *rentype.Ren
+	// foundRen1 - 呼吸点の探索時に使います
+	foundRen1 *ren.Ren
 }
 
 // NewLibertySearchAlgorithm - 新規作成
@@ -45,16 +43,16 @@ func NewLibertySearchAlgorithm(board *board.Board, checkBoard1 *check_board.Chec
 // -------
 // - *Ren is ren or nil
 // - bool is found
-func (ls *LibertySearchAlgorithm) FindRen(arbitraryPoint point.Point) (*rentype.Ren, bool) {
+func (ls *LibertySearchAlgorithm) FindRen(arbitraryPoint point.Point) (*ren.Ren, bool) {
 	// 探索済みならスキップ
 	if ls.checkBoard.Contains(arbitraryPoint, mark.Mark_BitStone) {
 		return nil, false
 	}
 
 	// 連の初期化
-	ls.foundRen = rentype.NewRen(ls.board.GetStoneAt(arbitraryPoint))
+	ls.foundRen1 = ren.NewRen(ls.board.GetStoneAt(arbitraryPoint))
 
-	if ls.foundRen.Stone == color.None {
+	if ls.foundRen1.Stone == color.None {
 		ls.searchSpaceRen(arbitraryPoint)
 	} else {
 		ls.searchStoneRenRecursive(arbitraryPoint)
@@ -66,7 +64,7 @@ func (ls *LibertySearchAlgorithm) FindRen(arbitraryPoint point.Point) (*rentype.
 		ls.board.Coordinate.ForeachCellWithoutWall(eachPoint)
 	}
 
-	return ls.foundRen, true
+	return ls.foundRen1, true
 }
 
 // 石の連の探索
@@ -77,7 +75,7 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here point.Point) {
 	// 石のチェック
 	ls.checkBoard.Overwrite(here, mark.Mark_BitStone)
 
-	ls.foundRen.AddLocation(here)
+	ls.foundRen1.AddLocation(here)
 
 	// 隣接する交点毎に
 	var eachAdjacent = func(dir direction_4.Directions4, p point.Point) {
@@ -88,7 +86,7 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here point.Point) {
 		case color.None: // 空点
 			if !ls.checkBoard.Contains(p, mark.Mark_BitLiberty) { // まだチェックしていない呼吸点なら
 				ls.checkBoard.Overwrite(p, mark.Mark_BitLiberty)
-				ls.foundRen.LibertyLocations = append(ls.foundRen.LibertyLocations, p) // 呼吸点を追加
+				ls.foundRen1.LibertyLocations = append(ls.foundRen1.LibertyLocations, p) // 呼吸点を追加
 			}
 
 			return // あとの処理をスキップ
@@ -104,9 +102,9 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here point.Point) {
 
 		var color = color1
 		// 隣接する色、追加
-		ls.foundRen.AdjacentColor = ls.foundRen.AdjacentColor.GetAdded(color)
+		ls.foundRen1.AdjacentColor = ls.foundRen1.AdjacentColor.GetAdded(color)
 
-		if color1 == ls.foundRen.Stone { // 同じ石
+		if color1 == ls.foundRen1.Stone { // 同じ石
 			ls.searchStoneRenRecursive(p) // 再帰
 		}
 	}
@@ -119,7 +117,7 @@ func (ls *LibertySearchAlgorithm) searchStoneRenRecursive(here point.Point) {
 // - 再帰関数
 func (ls *LibertySearchAlgorithm) searchSpaceRen(here point.Point) {
 	ls.checkBoard.Overwrite(here, mark.Mark_BitStone)
-	ls.foundRen.AddLocation(here)
+	ls.foundRen1.AddLocation(here)
 
 	var eachAdjacent = func(dir direction_4.Directions4, p point.Point) {
 		// 探索済みならスキップ
@@ -133,7 +131,7 @@ func (ls *LibertySearchAlgorithm) searchSpaceRen(here point.Point) {
 		}
 
 		// 隣接する色、追加
-		ls.foundRen.AdjacentColor = ls.foundRen.AdjacentColor.GetAdded(color1)
+		ls.foundRen1.AdjacentColor = ls.foundRen1.AdjacentColor.GetAdded(color1)
 		ls.searchSpaceRen(p) // 再帰
 	}
 

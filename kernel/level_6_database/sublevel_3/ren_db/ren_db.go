@@ -10,12 +10,10 @@ import (
 	moves_num "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/moves_num"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
 	board_coordinate "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_2/board_coordinate"
+	ren "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_2/ren"
 
 	// Level 2.1
 	geta "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_2_conceptual/sublevel_1/geta"
-
-	// Level 4.1
-	rentype "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/ren"
 
 	// Level 5.1
 	ren_id "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_5_game_technic/sublevel_1/ren_id"
@@ -30,7 +28,7 @@ type RenDb struct {
 	Header ren_db_doc_header.RenDbDocHeader `json:"header"`
 
 	// 要素
-	Rens map[ren_id.RenId]*rentype.Ren `json:"rens"`
+	Rens map[ren_id.RenId]*ren.Ren `json:"rens"`
 }
 
 // Init - 初期化
@@ -66,7 +64,7 @@ func (db *RenDb) Save(path string, convertLocation func(point.Point) string, onE
 }
 
 // FindRen - 連を取得
-func (db *RenDb) GetRen(renId ren_id.RenId) (*rentype.Ren, bool) {
+func (db *RenDb) GetRen(renId ren_id.RenId) (*ren.Ren, bool) {
 	var ren1, isOk = db.Rens[renId]
 
 	if isOk {
@@ -78,7 +76,7 @@ func (db *RenDb) GetRen(renId ren_id.RenId) (*rentype.Ren, bool) {
 
 // RegisterRen - 連を登録
 // * すでに Id が登録されているなら、上書きしない
-func (db *RenDb) RegisterRen(positionNthFigure int, movesNum1 moves_num.MovesNum, ren1 *rentype.Ren) {
+func (db *RenDb) RegisterRen(positionNthFigure int, movesNum1 moves_num.MovesNum, ren1 *ren.Ren) {
 	var renId = GetRenId(db.Header.GetBoardMemoryWidth(), positionNthFigure, movesNum1, ren1.MinimumLocation)
 
 	var _, isExists = db.Rens[renId]
@@ -122,6 +120,6 @@ func GetRenId(boardMemoryWidth int, positionNthFigure int, movesNum1 moves_num.M
 func NewRenDb(boardWidth int, boardHeight int) *RenDb {
 	var db = new(RenDb)
 	db.Header.Init(boardWidth, boardHeight)
-	db.Rens = make(map[ren_id.RenId]*rentype.Ren)
+	db.Rens = make(map[ren_id.RenId]*ren.Ren)
 	return db
 }

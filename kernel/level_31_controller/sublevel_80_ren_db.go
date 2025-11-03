@@ -11,9 +11,7 @@ import (
 	// Entities
 	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
-
-	// Level 4.1
-	rentype "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/ren"
+	ren "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_2/ren"
 
 	// Level 6.3
 	ren_db "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_6_database/sublevel_3/ren_db"
@@ -37,8 +35,8 @@ func (kernel1 *Kernel) LoadRenDb(path string, onError func(error) bool) bool {
 	}
 
 	// 外部ファイルからの入力を、内部状態へ適用
-	for _, ren := range db.Rens {
-		var isOk = kernel1.RefreshRenToInternal(ren)
+	for _, ren1 := range db.Rens {
+		var isOk = kernel1.RefreshRenToInternal(ren1)
 		if !isOk {
 			return false
 		}
@@ -50,7 +48,7 @@ func (kernel1 *Kernel) LoadRenDb(path string, onError func(error) bool) bool {
 }
 
 // RefreshRenToInternal - TODO 外部ファイルから入力された内容を内部状態に適用します
-func (kernel1 *Kernel) RefreshRenToInternal(r *rentype.Ren) bool {
+func (kernel1 *Kernel) RefreshRenToInternal(r *ren.Ren) bool {
 	{
 		var getDefaultColor = func() (bool, color.Color) {
 			panic(fmt.Sprintf("unexpected stone:%s", r.Sto))
@@ -99,14 +97,14 @@ func (kernel1 *Kernel) RefreshRenToInternal(r *rentype.Ren) bool {
 }
 
 // RemoveRen - 石の連を打ち上げます
-func (kernel1 *Kernel) RemoveRen(ren *rentype.Ren) {
+func (kernel1 *Kernel) RemoveRen(ren1 *ren.Ren) {
 	// 空点をセット
 	var setLocation = func(i int, location point.Point) {
 		kernel1.Position.Board.SetStoneAt(location, color.None)
 	}
 
 	// 場所毎に
-	ren.ForeachLocation(setLocation)
+	ren1.ForeachLocation(setLocation)
 }
 
 // FindAllRens - [O23o_2o1o0] 盤上の全ての連を見つけます
@@ -120,10 +118,10 @@ func (kernel1 *Kernel) FindAllRens() {
 	var setLocation = func(location point.Point) {
 
 		var libertySearchAlgorithm = liberty_search_algorithm.NewLibertySearchAlgorithm(kernel1.Position.Board, kernel1.Position.CheckBoard)
-		var ren, isFound = libertySearchAlgorithm.FindRen(location)
+		var ren1, isFound = libertySearchAlgorithm.FindRen(location)
 
 		if isFound {
-			kernel1.RenDb.RegisterRen(maxPosNthFigure, kernel1.Record.MovesNum1, ren)
+			kernel1.RenDb.RegisterRen(maxPosNthFigure, kernel1.Record.MovesNum1, ren1)
 		}
 	}
 	// 盤上の枠の内側をスキャン。筋、段の順

@@ -1,5 +1,3 @@
-// BOF [O19o0]
-
 package level_31_controller
 
 import (
@@ -9,17 +7,13 @@ import (
 
 	// Entities
 	color "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/color"
-	"github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/direction_4"
+	direction_4 "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/direction_4"
 	point "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_1/point"
+	ren "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_1_entities/chapter_1_go_conceptual/section_2/ren"
 
 	// Section 1.1.1
 	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementations/part_7_presenter/chapter_1_io/section_1/logger"
 	i_text_io "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/interfaces/part_1_facility/chapter_1_io/section_1/i_text_io"
-
-	// Level 2.2
-
-	// Level 4.1
-	rentype "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/level_4_game_rule/sublevel_1/ren"
 )
 
 // DoPlay - 打つ
@@ -125,7 +119,7 @@ func (kernel1 *Kernel) Play(color1 color.Color, placePlay point.Point, logg *log
 
 	// [O22o6o1o0] Captured ルール
 	var isExists4rensToRemove = false
-	var o4rensToRemove [4]*rentype.Ren
+	var o4rensToRemove [4]*ren.Ren
 	var isChecked4rensToRemove = false
 
 	// [O22o3o1o0] 連と呼吸点の算出
@@ -169,13 +163,13 @@ func (kernel1 *Kernel) Play(color1 color.Color, placePlay point.Point, logg *log
 	// [O22o6o1o0] 死に石を打ちあげる
 	if isExists4rensToRemove {
 		for dir := 0; dir < 4; dir++ {
-			var ren = o4rensToRemove[dir]
+			var ren1 = o4rensToRemove[dir]
 
-			if ren != nil {
-				kernel1.RemoveRen(ren)
+			if ren1 != nil {
+				kernel1.RemoveRen(ren1)
 
 				// [O22o7o2o0] コウの判定
-				capturedCount += ren.GetArea()
+				capturedCount += ren1.GetArea()
 			}
 		}
 	}
@@ -201,10 +195,10 @@ func (kernel1 *Kernel) Play(color1 color.Color, placePlay point.Point, logg *log
 // isExists : bool
 // renToRemove : [4]*Ren
 // 隣接する東、北、西、南にある石を含む連
-func (kernel1 *Kernel) GetRenToCapture(placePlay point.Point) (bool, [4]*rentype.Ren) {
+func (kernel1 *Kernel) GetRenToCapture(placePlay point.Point) (bool, [4]*ren.Ren) {
 	// [O22o6o1o0]
 	var isExists bool
-	var rensToRemove [4]*rentype.Ren
+	var rensToRemove [4]*ren.Ren
 	var renIds = [4]point.Point{math.MaxInt, math.MaxInt, math.MaxInt, math.MaxInt}
 
 	var setAdjacentPoint = func(dir direction_4.Directions4, adjacentP point.Point) {
@@ -231,5 +225,3 @@ func (kernel1 *Kernel) GetRenToCapture(placePlay point.Point) (bool, [4]*rentype
 
 	return isExists, rensToRemove
 }
-
-// EOF [O19o0]
