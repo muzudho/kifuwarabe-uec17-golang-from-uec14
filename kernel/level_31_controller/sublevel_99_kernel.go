@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	// Section 1.1.1
-	"github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/interfaces/part_1_facility/chapter_1_i_o/section_1/i_text_i_o"
-	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/part_1_facility/chapter_1_i_o/section_1/logger"
+	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementation/part_7_presenter/chapter_1_i_o/section_1/logger"
+	i_text_i_o "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/interfaces/part_1_facility/chapter_1_i_o/section_1/i_text_i_o"
 
 	// Section 1.1.2
 

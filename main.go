@@ -10,14 +10,12 @@ import (
 
 	dbg "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/debugger"
 
+	// Implementation
+	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementation/part_7_presenter/chapter_1_i_o/section_1/logger"
+	text_i_o "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/implementation/part_7_presenter/chapter_1_i_o/section_2/text_i_o"
+
 	// Interfaces
 	i_text_i_o "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/interfaces/part_1_facility/chapter_1_i_o/section_1/i_text_i_o"
-
-	// Part 1
-	text_i_o "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/part_1_facility/chapter_1_i_o/section_2/text_i_o"
-
-	// Section 1.1.1
-	logger "github.com/muzudho/kifuwarabe-uec17-golang-from-uec14/kernel/part_1_facility/chapter_1_i_o/section_1/logger"
 
 	// Section 1.1.2
 
@@ -89,8 +87,7 @@ func main() {
 	// 思考エンジンの準備　＞　テキストＩＯ
 	// ========================================
 
-	var text_i_o1 i_text_i_o.ITextIO
-	text_i_o1 = text_i_o.NewTextIO(log1)
+	var text_i_o1 i_text_i_o.ITextIO = text_i_o.NewTextIO(log1)
 
 	// ========================================
 	// コマンドラインの第一引数で処理を振り分ける
