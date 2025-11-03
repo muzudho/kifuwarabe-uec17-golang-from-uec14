@@ -52,23 +52,37 @@ func LoopGTP(text_io1 i_text_io.ITextIO, log1 *logger.Logger, engineConfig *Conf
 		switch tokens[0] {
 
 		// ========================================
-		// GTP 対応　＞　大会参加向け
+		// GTP 対応　＞　大会参加最低限
 		// ========================================
 
 		// 使用可能なコマンドのリスト
 		// Example: `list_commands`
 		case "list_commands":
 			// 最初の１個は頭に "= " を付ける必要があってめんどくさいので先に出力
-			text_io1.SendCommand("= quit\n")
+			text_io1.SendCommand("= list_commands\n")
 
-			items := []string{"boardsize", "komi", "list_commands", "name", "protocol_version", "version"}
+			items := []string{
+				// 終了コマンド
+				"quit",
+				// ハンドシェイク
+				"protocol_version", "name", "version",
+				// 対局設定
+				"boardsize", "komi"}
 			for _, item := range items {
 				text_io1.SendCommand(fmt.Sprintf("%s\n", item))
 			}
 
+		// ========================================
+		// GTP 対応　＞　大会参加最低限　＞　終了コマンド
+		// ========================================
+
 		case "quit": // [O11o_1o0]
 			// os.Exit(0)
 			return
+
+		// ========================================
+		// GTP 対応　＞　大会参加最低限　＞　ハンドシェイク
+		// ========================================
 
 		// 思考エンジンの名前
 		// Example: `name`
@@ -85,19 +99,9 @@ func LoopGTP(text_io1 i_text_io.ITextIO, log1 *logger.Logger, engineConfig *Conf
 		case "protocol_version":
 			text_io1.SendCommand("= 2\n")
 
-		// コミの設定
-		// Example: `komi 6.5`
-		case "komi":
-			komi, err := strconv.ParseFloat(tokens[1], 64)
-
-			if err != nil {
-				text_io1.SendCommand(fmt.Sprintf("? unexpected komi:%s\n", tokens[1]))
-				log1.J.Infow("error", "komi", tokens[1])
-			}
-
-			kernel1.Position.Board.GameRuleSettings.Komi = komi_float.KomiFloat(komi)
-			text_io1.SendCommand("=\n")
-			log1.J.Infow("ok")
+		// ========================================
+		// GTP 対応　＞　大会参加最低限　＞　対局設定
+		// ========================================
 
 		// 盤サイズの設定
 		// Example: `boardsize 19`
@@ -114,13 +118,48 @@ func LoopGTP(text_io1 i_text_io.ITextIO, log1 *logger.Logger, engineConfig *Conf
 			text_io1.SendCommand("=\n")
 			log1.J.Infow("ok")
 
+		// コミの設定
+		// Example: `komi 6.5`
+		case "komi":
+			komi, err := strconv.ParseFloat(tokens[1], 64)
+
+			if err != nil {
+				text_io1.SendCommand(fmt.Sprintf("? unexpected komi:%s\n", tokens[1]))
+				log1.J.Infow("error", "komi", tokens[1])
+			}
+
+			kernel1.Position.Board.GameRuleSettings.Komi = komi_float.KomiFloat(komi)
+			text_io1.SendCommand("=\n")
+			log1.J.Infow("ok")
+
+		// ========================================
+		// GTP 対応　＞　大会参加最低限　＞　対局
+		// ========================================
+
+		case "clear_board":
+			kernel1.Position.Board.Init(engineConfig.GetBoardSize(), engineConfig.GetBoardSize())
+			text_io1.SendCommand("= \n\n")
+
 		// 石を置く
 		// Example: `play black A19`
 		case "play":
 			kernel1.DoPlay(command, text_io1, log1)
 
-		// TODO case "genmove white":
-		// TODO case "genmove black":
+		case "undo":
+			// 未実装
+			text_io1.SendCommand("= \n\n")
+
+		case "genmove":
+			// genmove black
+			// genmove white
+			// var color e.Stone
+			// if 1 < len(tokens) && strings.ToLower(tokens[1][0:1]) == "w" {
+			// 	color = 2
+			// } else {
+			// 	color = 1
+			// }
+			// var z = PlayComputerMoveLesson09a(position, color)
+			// text_io1.SendCommand(fmt.Sprintf("= %s\n\n", p.GetGtpZ(position, z)))
 
 		// ========================================
 		// 独自コマンド
